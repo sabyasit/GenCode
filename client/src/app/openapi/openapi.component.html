@@ -56,9 +56,14 @@
         </div>
     </div>
     <div class="row" style="margin-top: 30px;">
-        <div class="panel panel-primary" *ngFor="let item of list; let i = index">
-            <div class="panel-heading">{{item.Verb}} - {{item.Operation}}
-                <button type="button" class="btn btn-success" style="float: right; padding: 0px 5px;" (click)="renderBuilder(item)">Render</button>
+        <div class="panel panel-primary" *ngFor="let tag of list.Tags">
+            <div class="panel-heading">{{tag.Tag}} - {{tag.Description}}</div>
+            <div class="panel-body">
+                <div class="panel panel-info" *ngFor="let item of tag.Operations">
+                    <div class="panel-heading">{{item.Verb}} - {{item.Name}}
+                        <button type="button" class="btn btn-success" style="float: right; padding: 0px 5px;" (click)="renderBuilder(item)">Render</button>
+                    </div>
+                </div>
             </div>
         </div>  
     </div>

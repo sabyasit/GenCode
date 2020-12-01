@@ -22,6 +22,7 @@ export class ApibuilderComponent implements OnInit {
   selectedItem: any;
   response: any = {};
   modalRef: BsModalRef | undefined;
+  previewData: any;
 
   constructor(private dragulaService: DragulaService, private modalService: BsModalService, private openApiService: OpenApiService, private router: Router) {
     this.calcItems = [];
@@ -32,12 +33,14 @@ export class ApibuilderComponent implements OnInit {
     this.response.ParamTree = tree;
     this.response.Project = '';
     this.response.Design = {};
-    
+
     for (let i = 0; i < tree.length; i++) {
       this.arritems.push({
         Name: (tree[i] as any).Name,
         Type: (tree[i] as any).Type,
         Node: (tree[i] as any).Node,
+        Position: (tree[i] as any).Position,
+        Values: (tree[i] as any).Values,
         Selected: 0,
         Id: i
       });
@@ -78,9 +81,12 @@ export class ApibuilderComponent implements OnInit {
         Node: args.item.Node,
         Id: args.item.Id,
         Selected: 1,
-        Control: 0,
+        Control: '0',
         Value: '',
         Required: false,
+        Position: args.item.Position,
+        Values: args.item.Values,
+        Description: '',
         Error: ''
       }
       if (args.target.className == "t" || args.target.className == "x") {
@@ -100,6 +106,11 @@ export class ApibuilderComponent implements OnInit {
         this.calcItems[index].splice(1, 0, item);
       }
       this.selectedItem = item;
+      setTimeout(() => {
+        if(this.selectedItem.Control =='0'){
+          this.selectedItem.Control = (document.getElementById('controlDD') as HTMLSelectElement).options[0].getAttribute("value");
+        }
+      }, 100);
     });
     this.dragulaService.drag("OPENAPI").subscribe(args => {
       this.posDisplay = true;
@@ -131,6 +142,11 @@ export class ApibuilderComponent implements OnInit {
     }
     item.Selected = 1;
     this.selectedItem = item;
+    setTimeout(() => {
+      if(this.selectedItem.Control =='0'){
+        this.selectedItem.Control = (document.getElementById('controlDD') as HTMLSelectElement).options[0].getAttribute("value");
+      }
+    }, 100);
     console.log(this.calcItems);
   }
 
@@ -154,14 +170,21 @@ export class ApibuilderComponent implements OnInit {
     return item.Node * 20;
   }
 
-  openModal(template: TemplateRef<any>){
+  openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
 
   generateCode() {
     this.response.Design = this.calcItems;
-    this.openApiService.GenCode(this.response).subscribe((res)=>{
+    this.openApiService.GenCode(this.response).subscribe((res) => {
       console.log(res);
     });
+  }
+
+  preview() {
+    this.previewData = JSON.stringify({ Operation: this.model, Design: this.calcItems});
+    setTimeout(() => {
+      (document.getElementById("previewForm") as HTMLFormElement).submit();
+    }, 100);
   }
 }
