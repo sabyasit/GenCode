@@ -7,6 +7,9 @@ using System.Net.Http;
 using System.Web.Http;
 using System.IO;
 using System.Text;
+using Server.Models;
+using Server.Util;
+using System.Net.Http.Headers;
 
 namespace Server.Controllers
 {
@@ -14,48 +17,99 @@ namespace Server.Controllers
     {
         [HttpPost]
         [Route("api/openapi")]
-        public List<OpenApi> GetOpenApi([FromBody] OpenApiData data)
+        public OpenApiPath GetOpenApi([FromBody] OpenApi data)
         {
-            var openApi = new List<OpenApi>();
+            var openApi = new OpenApiPath();
+
             OpenApiDiagnostic diagnostic = new OpenApiDiagnostic();
             using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(data.Data)))
             {
                 var openApiDocument = new OpenApiStreamReader().Read(ms, out diagnostic);
-                foreach(var path in openApiDocument.Paths)
+                foreach (var tag in openApiDocument.Tags)
                 {
-                    foreach(var operations in path.Value.Operations)
+                    openApi.Tags.Add(new OpenApiTag()
                     {
-                        var operation = new OpenApi()
+                        Tag = tag.Name,
+                        Description = tag.Description
+                    });
+                }
+                if (openApi.Tags.Count == 0)
+                {
+                    openApi.Tags.Add(new OpenApiTag()
+                    {
+                        Tag = "Default"
+                    });
+                }
+
+                foreach (var path in openApiDocument.Paths)
+                {
+                    foreach (var operation in path.Value.Operations)
+                    {
+                        var objOperation = new OpenApiOperation()
                         {
-                            Operation = path.Key,
-                            Verb = operations.Key.ToString(),
-                            ParamTree = new List<ParameterTree>()
+                            Id = operation.Value.OperationId,
+                            Name = path.Key,
+                            Verb = operation.Key.ToString()
                         };
 
-                        foreach(var param in operations.Value.Parameters)
+                        foreach (var param in operation.Value.Parameters)
                         {
-                            var p = new Parameter()
+                            var objparam = new OpenApiOperationParam()
                             {
                                 Name = param.Name,
-                                Type = param.Schema.Type
+                                Type = param.Schema.Type,
+                                IsRequired = param.Required,
+                                Description = param.Description
                             };
 
-                            operation.ParamTree.Add(new ParameterTree()
+                            if (param.Schema.Enum != null && param.Schema.Enum.Count > 0)
                             {
-                                Name = param.Name,
-                                Type= param.Schema.Type,
-                                Node = 0
-                            });
-
-                            if (p.Type == "object")
-                            {
-                                p.properties = GetSchema(param.Schema, null, operation.ParamTree, 0)[0].properties;
+                                foreach (var val in param.Schema.Enum)
+                                {
+                                    objparam.Values.Add((val as Microsoft.OpenApi.Any.OpenApiString).Value);
+                                }
                             }
 
-                            operation.Param.Add(p);
+                            if (param.Schema.Type == "array")
+                            {
+                                objparam.Type = "string"; // hard code
+                                foreach (var val in param.Schema.Items.Enum)
+                                {
+                                    objparam.Values.Add((val as Microsoft.OpenApi.Any.OpenApiString).Value);
+                                }
+                            }
+
+                            objOperation.ParamTree.Add(new ParameterTree()
+                            {
+                                Name = objparam.Name,
+                                Type = objparam.Type,
+                                Node = 1,
+                                Position = "query",
+                                Values = objparam.Values
+                            });
+
+                            objOperation.Params.Add(objparam);
                         }
-                        openApi.Add(operation);
-                        //operation.Param = GetParams(operations.Value.Parameters.ToList());
+
+                        if (operation.Value.RequestBody != null && operation.Value.RequestBody.Content.Count > 0)
+                        {
+                            var content = operation.Value.RequestBody.Content.FirstOrDefault();
+                            objOperation.BodyParams = GetBodyParam(content.Value.Schema, null, objOperation.ParamTree, 0)[0].Property;
+                        }
+
+                        foreach (var server in openApiDocument.Servers)
+                        {
+                            objOperation.Server.Add(server.Url);
+                        }
+
+                        if (operation.Value.Tags != null && operation.Value.Tags.Count > 0)
+                        {
+                            openApi.Tags.Where(x => x.Tag == operation.Value.Tags[0].Name).FirstOrDefault().Operations.Add(objOperation);
+                        }
+                        else
+                        {
+                            openApi.Tags.Where(x => x.Tag == "Default").FirstOrDefault().Operations.Add(objOperation);
+                        }
                     }
                 }
             }
@@ -64,100 +118,67 @@ namespace Server.Controllers
         }
 
         [HttpPost]
-        [Route("api/gencode")]
-        public string GenCode(Request request)
+        [Route("api/preview")]
+        public HttpResponseMessage Preview([FromBody] OpenApi previewData)
         {
-            return "";
+            Request request = Newtonsoft.Json.JsonConvert.DeserializeObject<Request>(previewData.Data);
+            var response = new HttpResponseMessage();
+            response.Content = new StringContent(PreviewUtil.PreviewHTML(request));
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+            return response;
         }
-        private List<Parameter> GetSchema(Microsoft.OpenApi.Models.OpenApiSchema schemas, string key, List<ParameterTree> tree, int node)
+
+        private List<OpenApiOperationParam> GetBodyParam(Microsoft.OpenApi.Models.OpenApiSchema schema, string key, List<ParameterTree> tree, int node)
         {
-            var allparames = new List<Parameter>();
-            var p = new Parameter()
+            var paramLst = new List<OpenApiOperationParam>();
+            var param = new OpenApiOperationParam()
             {
                 Name = key,
-                Type = schemas.Type
+                Type = schema.Type,
+                Description = schema.Description
             };
+
+            if (schema.Enum != null)
+            {
+                foreach (var val in schema.Enum)
+                {
+                    param.Values.Add((val as Microsoft.OpenApi.Any.OpenApiString).Value);
+                }
+            }
 
             if (!string.IsNullOrEmpty(key))
             {
                 tree.Add(new ParameterTree()
                 {
-                    Name = key,
-                    Type = schemas.Type,
-                    Node = node
+                    Name = param.Name,
+                    Type = param.Type,
+                    Node = node,
+                    Position = "body",
+                    Values = param.Values
                 });
             }
 
-            if (schemas.Type == "object")
+            if (schema.Properties != null)
             {
-                foreach(var prop in schemas.Properties)
+                foreach (var prop in schema.Properties)
                 {
-                    p.properties.AddRange(GetSchema(prop.Value, prop.Key, tree, node + 1));
-                }    
+                    param.Property.AddRange(GetBodyParam(prop.Value, prop.Key, tree, node + 1));
+                }
             }
-            allparames.Add(p);
 
-            return allparames;
+            if (schema.Type == "array" && schema.Items != null)
+            {
+                param.Type = schema.Items.Properties.Count == 0 ? "string" : "object"; // hard code
+
+                foreach (var prop in schema.Items.Properties)
+                {
+                    param.Property.AddRange(GetBodyParam(prop.Value, prop.Key, tree, node + 1));
+                }
+            }
+
+            paramLst.Add(param);
+
+            return paramLst;
         }
-    }
-
-    public class OpenApiData
-    {
-        public string Data { get; set; }
-    }
-
-    public class OpenApi
-    {
-        public string Operation { get; set; }
-        public string Verb { get; set; }
-        public List<Parameter> Param { get; set; }
-        public List<ParameterTree> ParamTree { get; set;}
-        public OpenApi()
-        {
-            Param = new List<Parameter>();
-        }
-    }
-
-    public class Parameter
-    {
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public List<string> Values { get; set; }
-        public bool IsRequired { get; set; }
-        public List<Parameter> properties { get; set; }
-
-        public Parameter()
-        {
-            properties = new List<Parameter>();
-        }
-    }
-
-    public class ParameterTree
-    {
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public int Node { get; set; }
-    }
-
-    public class Request
-    {
-        public string Operation { get; set; }
-        public string Verb { get; set; }
-        public List<ParameterTree> ParamTree { get; set; }
-        public string Project { get; set; }
-        public List<List<Design>> Design { get; set; }
-    }
-
-    public class Design
-    {
-        public string Name { get; set; }
-        public string Level { get; set; }
-        public string Type { get; set; }
-        public int Node { get; set; }
-        public int Id { get; set; }
-        public string Control { get; set; }
-        public string Value { get; set; }
-        public bool Required { get; set; }
-        public string Error { get; set; }
     }
 }
