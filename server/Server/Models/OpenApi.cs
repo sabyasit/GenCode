@@ -68,16 +68,19 @@ namespace Server.Models
         public ParameterTree()
         {
             Values = new List<string>();
+            Items = new List<ParameterTree>();
         }
         public string Name { get; set; }
         public string Type { get; set; }
         public int Node { get; set; }
         public string Position { get; set; }
         public List<string> Values { get; set; }
+        public List<ParameterTree> Items { get; set; }
     }
 
     public class Request
     {
+        public string Header { get; set; }
         public OpenApiOperation Operation { get; set; }
         public List<List<RequestDesign>> Design { get; set; }
     }
@@ -95,5 +98,6 @@ namespace Server.Models
         public List<string> Values { get; set; }
         public string Description { get; set; }
         public string Error { get; set; }
+        public List<RequestDesign> Items { get; set; }
     }
 }

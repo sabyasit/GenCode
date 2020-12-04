@@ -72,7 +72,6 @@ namespace Server.Controllers
 
                             if (param.Schema.Type == "array")
                             {
-                                objparam.Type = "string"; // hard code
                                 foreach (var val in param.Schema.Items.Enum)
                                 {
                                     objparam.Values.Add((val as Microsoft.OpenApi.Any.OpenApiString).Value);
@@ -102,6 +101,23 @@ namespace Server.Controllers
                             objOperation.Server.Add(server.Url);
                         }
 
+                        if (objOperation.ParamTree.Count > 0)
+                        {
+                            var paramTree = objOperation.ParamTree.ToList();
+                            objOperation.ParamTree.Clear();
+                            foreach (var item in paramTree)
+                            {
+                                if (objOperation.ParamTree.Count > 0
+                                    && objOperation.ParamTree.Last().Type == "array"
+                                    && objOperation.ParamTree.Last().Node < item.Node)
+                                {
+                                    objOperation.ParamTree.Last().Items.Add(item);
+                                }
+                                else
+                                    objOperation.ParamTree.Add(item);
+                            }
+                        }
+
                         if (operation.Value.Tags != null && operation.Value.Tags.Count > 0)
                         {
                             openApi.Tags.Where(x => x.Tag == operation.Value.Tags[0].Name).FirstOrDefault().Operations.Add(objOperation);
@@ -110,6 +126,8 @@ namespace Server.Controllers
                         {
                             openApi.Tags.Where(x => x.Tag == "Default").FirstOrDefault().Operations.Add(objOperation);
                         }
+
+                        
                     }
                 }
             }
@@ -168,8 +186,6 @@ namespace Server.Controllers
 
             if (schema.Type == "array" && schema.Items != null)
             {
-                param.Type = schema.Items.Properties.Count == 0 ? "string" : "object"; // hard code
-
                 foreach (var prop in schema.Items.Properties)
                 {
                     param.Property.AddRange(GetBodyParam(prop.Value, prop.Key, tree, node + 1));
