@@ -23,6 +23,10 @@ export class ApibuilderComponent implements OnInit {
   response: any = {};
   modalRef: BsModalRef | undefined;
   previewData: any;
+  header: any = {
+    Header: '',
+    Description: ''
+  };
 
   constructor(private dragulaService: DragulaService, private modalService: BsModalService, private openApiService: OpenApiService, private router: Router) {
     this.calcItems = [];
@@ -42,7 +46,8 @@ export class ApibuilderComponent implements OnInit {
         Position: (tree[i] as any).Position,
         Values: (tree[i] as any).Values,
         Selected: 0,
-        Id: i
+        Id: i,
+        Items: (tree[i] as any).Items
       });
     }
 
@@ -71,6 +76,9 @@ export class ApibuilderComponent implements OnInit {
       for (let i = 0; i < this.calcItems.length; i++) {
         for (let j = 0; j < this.calcItems[i].length; j++) {
           this.calcItems[i][j].Selected = 0;
+          for (let k = 0; k < this.calcItems[i][j].Items.length; k++) {
+            this.calcItems[i][j].Items[k].Selected = 0;
+          }
         }
       }
       (args.item as any).Selected = 1;
@@ -87,8 +95,33 @@ export class ApibuilderComponent implements OnInit {
         Position: args.item.Position,
         Values: args.item.Values,
         Description: '',
-        Error: ''
+        Error: '',
+        Items: Array<any>()
       }
+      for (let i = 0; i < args.item.Items.length; i++) {
+        item.Items.push({
+          Name: args.item.Items[i].Name,
+          Level: args.item.Items[i].Name,
+          Type: args.item.Items[i].Type,
+          Node: args.item.Items[i].Node,
+          Id: args.item.Items[i].Id,
+          Selected: 0,
+          Control: '0',
+          Value: '',
+          Required: false,
+          Position: args.item.Items[i].Position,
+          Values: args.item.Items[i].Values,
+          Description: '',
+          Error: '',
+          Items: []
+        });
+      }
+
+      if (item.Type == 'array' && item.Items.length > 0) {
+        item.Selected = 0;
+        item.Items[0].Selected = 1;
+      }
+
       if (args.target.className == "t" || args.target.className == "x") {
         const index: number = Number(args.target.getAttribute("row"));
         this.calcItems.splice(index, 0, [item]);
@@ -105,9 +138,14 @@ export class ApibuilderComponent implements OnInit {
         const index: number = Number(args.target.getAttribute("row"));
         this.calcItems[index].splice(1, 0, item);
       }
-      this.selectedItem = item;
+      if (item.Type == 'array' && item.Items.length > 0) {
+        this.selectedItem = item.Items[0];
+      }
+      else {
+        this.selectedItem = item;
+      }
       setTimeout(() => {
-        if(this.selectedItem.Control =='0'){
+        if (this.selectedItem.Control == '0') {
           this.selectedItem.Control = (document.getElementById('controlDD') as HTMLSelectElement).options[0].getAttribute("value");
         }
       }, 100);
@@ -138,35 +176,59 @@ export class ApibuilderComponent implements OnInit {
     for (let i = 0; i < this.calcItems.length; i++) {
       for (let j = 0; j < this.calcItems[i].length; j++) {
         this.calcItems[i][j].Selected = 0;
+        for (let k = 0; k < this.calcItems[i][j].Items.length; k++) {
+          this.calcItems[i][j].Items[k].Selected = 0;
+        }
       }
     }
     item.Selected = 1;
     this.selectedItem = item;
     setTimeout(() => {
-      if(this.selectedItem.Control =='0'){
+      if (this.selectedItem.Control == '0') {
         this.selectedItem.Control = (document.getElementById('controlDD') as HTMLSelectElement).options[0].getAttribute("value");
       }
     }, 100);
     console.log(this.calcItems);
   }
 
-  deleteItem(i: number, j: number, item: any) {
-    if (this.calcItems[i].length == 1) {
-      this.calcItems.splice(i, 1);
-    }
-    else {
-      this.calcItems[i].splice(j, 1);
-    }
-
-    for (let index = 0; index < this.arritems.length; index++) {
-      if (item.Id == this.arritems[index].Id) {
-        this.arritems[index].Selected = 0;
+  deleteItem(i: number, j: number, k: number, item: any) {
+    if (k == -1) {
+      if (this.calcItems[i].length == 1) {
+        this.calcItems.splice(i, 1);
+      }
+      else {
+        this.calcItems[i].splice(j, 1);
+      }
+      for (let index = 0; index < this.arritems.length; index++) {
+        if (item.Id == this.arritems[index].Id) {
+          this.arritems[index].Selected = 0;
+        }
       }
     }
+    else {
+      item.Items.splice(k, 1);
+      if (item.Items.length == 0) {
+        if (this.calcItems[i].length == 1) {
+          this.calcItems.splice(i, 1);
+        }
+        else {
+          this.calcItems[i].splice(j, 1);
+        }
+        for (let index = 0; index < this.arritems.length; index++) {
+          if (item.Id == this.arritems[index].Id) {
+            this.arritems[index].Selected = 0;
+          }
+        }
+      }
+    }
+
     this.selectedItem = undefined;
   }
 
-  calcMargin(item: any) {
+  calcMargin(item: any, type: number) {
+    if (type == 1) {
+      return (item.Node * 20) - 30;
+    }
     return item.Node * 20;
   }
 
@@ -182,7 +244,7 @@ export class ApibuilderComponent implements OnInit {
   }
 
   preview() {
-    this.previewData = JSON.stringify({ Operation: this.model, Design: this.calcItems});
+    this.previewData = JSON.stringify({ Header: this.header.Header, Operation: this.model, Design: this.calcItems });
     setTimeout(() => {
       (document.getElementById("previewForm") as HTMLFormElement).submit();
     }, 100);
