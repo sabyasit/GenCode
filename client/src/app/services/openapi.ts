@@ -13,7 +13,7 @@ export class OpenApiService {
     return this.http.post('api/openapi', {data: data});
   }
 
-  GenCode(data: any): Observable<any> {
-    return this.http.post('api/gencode', data);
+  GenerateCode(data: any): Observable<any> {
+    return this.http.post('api/generate', data);
   }
 }

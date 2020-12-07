@@ -23,10 +23,6 @@ export class ApibuilderComponent implements OnInit {
   response: any = {};
   modalRef: BsModalRef | undefined;
   previewData: any;
-  header: any = {
-    Header: '',
-    Description: ''
-  };
 
   constructor(private dragulaService: DragulaService, private modalService: BsModalService, private openApiService: OpenApiService, private router: Router) {
     this.calcItems = [];
@@ -37,6 +33,8 @@ export class ApibuilderComponent implements OnInit {
     this.response.ParamTree = tree;
     this.response.Project = '';
     this.response.Design = {};
+    this.response.Header = '';
+    this.response.Server = '';
 
     for (let i = 0; i < tree.length; i++) {
       this.arritems.push({
@@ -47,7 +45,8 @@ export class ApibuilderComponent implements OnInit {
         Values: (tree[i] as any).Values,
         Selected: 0,
         Id: i,
-        Items: (tree[i] as any).Items
+        Items: (tree[i] as any).Items,
+        ObjectName: (tree[i] as any).ObjectName
       });
     }
 
@@ -96,7 +95,8 @@ export class ApibuilderComponent implements OnInit {
         Values: args.item.Values,
         Description: '',
         Error: '',
-        Items: Array<any>()
+        Items: Array<any>(),
+        ObjectName: args.item.Position+'_'+args.item.ObjectName,
       }
       for (let i = 0; i < args.item.Items.length; i++) {
         item.Items.push({
@@ -113,6 +113,7 @@ export class ApibuilderComponent implements OnInit {
           Values: args.item.Items[i].Values,
           Description: '',
           Error: '',
+          ObjectName: args.item.Items[i].Position+'_'+args.item.Items[i].ObjectName,
           Items: []
         });
       }
@@ -238,13 +239,19 @@ export class ApibuilderComponent implements OnInit {
 
   generateCode() {
     this.response.Design = this.calcItems;
-    this.openApiService.GenCode(this.response).subscribe((res) => {
+    this.openApiService.GenerateCode({
+      Header: this.response.Header, 
+      Project: this.response.Project,
+      Server: this.response.Server,
+      Operation: this.model, 
+      Design: this.calcItems
+    }).subscribe((res) => {
       console.log(res);
     });
   }
 
   preview() {
-    this.previewData = JSON.stringify({ Header: this.header.Header, Operation: this.model, Design: this.calcItems });
+    this.previewData = JSON.stringify({ Header: this.response.Header, Operation: this.model, Design: this.calcItems });
     setTimeout(() => {
       (document.getElementById("previewForm") as HTMLFormElement).submit();
     }, 100);
