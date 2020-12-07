@@ -71,6 +71,7 @@ namespace Server.Models
             Items = new List<ParameterTree>();
         }
         public string Name { get; set; }
+        public string ObjectName { get; set; }
         public string Type { get; set; }
         public int Node { get; set; }
         public string Position { get; set; }
@@ -81,6 +82,8 @@ namespace Server.Models
     public class Request
     {
         public string Header { get; set; }
+        public string Project { get; set; }
+        public string Server { get; set; }
         public OpenApiOperation Operation { get; set; }
         public List<List<RequestDesign>> Design { get; set; }
     }
@@ -88,7 +91,9 @@ namespace Server.Models
     public class RequestDesign
     {
         public string Name { get; set; }
+        public string ObjectName { get; set; }
         public string Level { get; set; }
+        public string Type { get; set; }
         public int Node { get; set; }
         public int Id { get; set; }
         public string Control { get; set; }
@@ -99,5 +104,19 @@ namespace Server.Models
         public string Description { get; set; }
         public string Error { get; set; }
         public List<RequestDesign> Items { get; set; }
+    }
+
+    public class ReactCode
+    {
+        public ReactCode()
+        {
+            States = new Dictionary<string, string>();
+            Function = new List<string>();
+            Imports = new List<string>();
+        }
+        public string Html { get; set; }
+        public Dictionary<string, string> States { get; set; }
+        public List<string> Function { get; set; }
+        public List<string> Imports { get; set; }
     }
 }

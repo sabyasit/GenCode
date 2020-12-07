@@ -82,6 +82,7 @@ namespace Server.Controllers
                             {
                                 Name = objparam.Name,
                                 Type = objparam.Type,
+                                ObjectName = objparam.Name,
                                 Node = 1,
                                 Position = "query",
                                 Values = objparam.Values
@@ -93,7 +94,7 @@ namespace Server.Controllers
                         if (operation.Value.RequestBody != null && operation.Value.RequestBody.Content.Count > 0)
                         {
                             var content = operation.Value.RequestBody.Content.FirstOrDefault();
-                            objOperation.BodyParams = GetBodyParam(content.Value.Schema, null, objOperation.ParamTree, 0)[0].Property;
+                            objOperation.BodyParams = GetBodyParam(content.Value.Schema, null, null, objOperation.ParamTree, 0)[0].Property;
                         }
 
                         foreach (var server in openApiDocument.Servers)
@@ -146,7 +147,14 @@ namespace Server.Controllers
             return response;
         }
 
-        private List<OpenApiOperationParam> GetBodyParam(Microsoft.OpenApi.Models.OpenApiSchema schema, string key, List<ParameterTree> tree, int node)
+        [HttpPost]
+        [Route("api/generate")]
+        public string Generate(Request request)
+        {
+            return GenerateUtil.GenerateReactCode(request);
+        }
+
+        private List<OpenApiOperationParam> GetBodyParam(Microsoft.OpenApi.Models.OpenApiSchema schema, string key, string parentName, List<ParameterTree> tree, int node)
         {
             var paramLst = new List<OpenApiOperationParam>();
             var param = new OpenApiOperationParam()
@@ -170,6 +178,7 @@ namespace Server.Controllers
                 {
                     Name = param.Name,
                     Type = param.Type,
+                    ObjectName = parentName[0]=='_'? parentName.Substring(1) : parentName,
                     Node = node,
                     Position = "body",
                     Values = param.Values
@@ -180,7 +189,7 @@ namespace Server.Controllers
             {
                 foreach (var prop in schema.Properties)
                 {
-                    param.Property.AddRange(GetBodyParam(prop.Value, prop.Key, tree, node + 1));
+                    param.Property.AddRange(GetBodyParam(prop.Value, prop.Key, string.Format("{0}_{1}", key, prop.Key), tree, node + 1));
                 }
             }
 
@@ -188,7 +197,7 @@ namespace Server.Controllers
             {
                 foreach (var prop in schema.Items.Properties)
                 {
-                    param.Property.AddRange(GetBodyParam(prop.Value, prop.Key, tree, node + 1));
+                    param.Property.AddRange(GetBodyParam(prop.Value, prop.Key, string.Format("{0}_{1}", key, prop.Key), tree, node + 1));
                 }
             }
 
