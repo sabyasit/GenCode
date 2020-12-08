@@ -42,6 +42,7 @@ namespace Server.Models
         public string Name { get; set; }
         public string Verb { get; set; }
         public string Id { get; set; }
+        public string Preview { get; set; }
         public List<OpenApiOperationParam> Params { get; set; }
         public List<OpenApiOperationParam> BodyParams { get; set; }
         public List<ParameterTree> ParamTree { get; set; }
@@ -74,6 +75,7 @@ namespace Server.Models
         public string ObjectName { get; set; }
         public string Type { get; set; }
         public int Node { get; set; }
+        public bool IsRequired { get; set; }
         public string Position { get; set; }
         public List<string> Values { get; set; }
         public List<ParameterTree> Items { get; set; }

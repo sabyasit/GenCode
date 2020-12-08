@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.IO;
+using Ionic.Zip;
 
 namespace Server.Util
 {
@@ -18,7 +19,28 @@ namespace Server.Util
             {4, new int[] {3,3,3,3} }
         };
 
-        public static string GenerateReactCode(Request request)
+        public static string ExportReactCode(Request request, string page, string path)
+        {
+            string code = GenerateReactCode(request, page);
+
+            File.WriteAllText(@"C:\Users\462676\Desktop\codeGen\my-app\src\App.js", code);
+
+            string guid = Guid.NewGuid().ToString();
+            using (var zip = ZipFile.Read(path + "\\dummy.zip"))
+            {
+                zip.ExtractAll(path + "\\" + guid);
+            }
+            File.WriteAllText(path + "\\" + guid + "\\dummy\\src\\app.js", code);
+            using (var zip = new ZipFile())
+            {
+                zip.AddDirectory(path + "\\" + guid + "\\dummy");
+                zip.Save(path + "\\" + guid + "\\" + request.Project + ".zip");
+            }
+
+            return guid;
+        }
+
+        public static string GenerateReactCode(Request request, string page)
         {
             List<ReactCode> codeGens = new List<ReactCode>();
 
@@ -69,6 +91,10 @@ namespace Server.Util
                         {
                             codeGens.Add(DrawArray(design[i], rows[i]));
                         }
+                        else
+                        {
+                            codeGens.Add(DrawArrayObject(design[i], rows[i]));
+                        }
                     }
                 }
             }
@@ -76,7 +102,7 @@ namespace Server.Util
             codeGens.Add(DrawSubmitModel(request, codeGens));
 
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("import logo from './logo.svg';");
+            //sb.AppendLine("import logo from './logo.svg';");
             sb.AppendLine("import React, {useCallback, useState} from 'react'");
             sb.AppendLine("import Grid from '@material-ui/core/Grid';");
             sb.AppendLine("import { makeStyles } from '@material-ui/core/styles';");
@@ -86,11 +112,11 @@ namespace Server.Util
             sb.AppendLine("import InputLabel from '@material-ui/core/InputLabel';");
             sb.AppendLine("import FormHelperText from '@material-ui/core/FormHelperText';");
             sb.AppendLine("import Button from '@material-ui/core/Button';");
-            sb.AppendLine("import './App.css';");
+            //sb.AppendLine("import './App.css';");
 
-            sb.AppendLine("const useStyles = makeStyles((theme) => ({ root: { flexGrow: 1, padding: 10 }, rightMargin: { marginRight: 120 }, rightFloat: { float: 'right', top: -40 } }));");
+            sb.AppendLine("const useStyles = makeStyles((theme) => ({ root: { flexGrow: 1, padding: 10 }, rightMargin: { marginRight: 100 }, rightFloat: { float: 'right', top: -40 }, rightMarginPos: { paddingRight: 100, position: 'relative' }, rightFloatPos: { position: 'absolute', right: 0, top: 24 } }));");
 
-            sb.AppendLine("function App() {");
+            sb.AppendLine("function " + page + "() {");
             sb.AppendLine("const classes = useStyles();");
 
             foreach (var gen in codeGens)
@@ -110,7 +136,7 @@ namespace Server.Util
             }
 
             sb.AppendLine("return (");
-            sb.AppendLine("<form className={classes.root} noValidate autoComplete='off' onSubmit={onSubmit}>");
+            sb.AppendLine("<form className={classes.root} autoComplete='off' onSubmit={onSubmit}>");
             sb.AppendLine("<h1>" + request.Header + "</h1>");
             sb.AppendLine("<Grid container spacing={3}>");
 
@@ -126,8 +152,7 @@ namespace Server.Util
             sb.AppendLine(");");
             sb.AppendLine("}");
 
-            sb.AppendLine("export default App;");
-            File.WriteAllText(@"C:\Users\462676\Desktop\codeGen\my-app\src\App.js", sb.ToString());
+            sb.AppendLineFormat("export default {0};", page);
 
             return sb.ToString();
         }
@@ -147,6 +172,78 @@ namespace Server.Util
             codeGen.States.Add(design.ObjectName, string.Format("const [{0}, {1}] = useState('{2}')", design.ObjectName, "Set_" + design.ObjectName, design.Value));
 
             codeGen.Imports.Add("import TextField from '@material-ui/core/TextField';");
+
+            return codeGen;
+        }
+
+        private static ReactCode DrawArrayObject(RequestDesign design, int grid)
+        {
+            ReactCode codeGen = new ReactCode();
+
+            var row = gridRow[design.Items.Count];
+            StringBuilder sbHtml = new StringBuilder();
+            sbHtml.AppendLine("<Grid item xs={" + grid.ToString() + "}>");
+            sbHtml.AppendLine("<div className={classes.rightMarginPos}>");
+            sbHtml.AppendLine("<Grid container spacing={3}>");
+            for (int i = 0; i < design.Items.Count; i++)
+            {
+                sbHtml.AppendLineFormat("<Grid item xs={0}>", "{" + row[i] + "}");
+                sbHtml.AppendLineFormat("<TextField label='{0}' helperText='{1}' type='text' {2} {3} fullWidth />",
+                    design.Items[i].Level, design.Items[i].Description, design.Items[i].Required ? "required" : "",
+                    "onInput={ e=>Set_" + design.ObjectName + "(e.target.value, '" + design.Items[i].Name + "', 0)}");
+                sbHtml.AppendLine("</Grid>");
+            }
+            sbHtml.AppendLine("</Grid>");
+            sbHtml.AppendLineFormat("<Button variant='contained' className={0} onClick={1}>Add</Button>", "{classes.rightFloatPos}", "{Add_" + design.ObjectName + "}");
+            sbHtml.AppendLine("</div>");
+
+            sbHtml.AppendLine("{" + design.ObjectName + ".map((value, index) => {");
+            sbHtml.AppendLine("if (index > 0) {");
+            sbHtml.AppendLine("return (");
+            sbHtml.AppendLine("<div key={`tag-${index}`} className={classes.rightMarginPos}>");
+            sbHtml.AppendLine("<Grid container spacing={3}>");
+            for (int i = 0; i < design.Items.Count; i++)
+            {
+                sbHtml.AppendLineFormat("<Grid item xs={0}>", "{" + row[i] + "}");
+                sbHtml.AppendLineFormat("<TextField label='{0}' helperText='{1}' type='text' {2} {3} fullWidth />",
+                    design.Items[i].Level, design.Items[i].Description, design.Items[i].Required ? "required" : "",
+                    "onInput={ e=>Set_" + design.ObjectName + "(e.target.value, '" + design.Items[i].Name + "', index)}");
+                sbHtml.AppendLine("</Grid>");
+            }
+            sbHtml.AppendLine("</Grid>");
+            sbHtml.AppendLineFormat("<Button variant='contained' className={0} onClick={1}>Remove</Button>", "{classes.rightFloatPos}", "{e=> Remove_" + design.ObjectName + "(index)}");
+            sbHtml.AppendLine("</div>");
+            sbHtml.AppendLine(")");
+            sbHtml.AppendLine("}");
+            sbHtml.AppendLine("})}");
+
+            sbHtml.AppendLine("</Grid>");
+            codeGen.Html = sbHtml.ToString();
+
+            codeGen.States.Add(design.ObjectName, string.Format("const [{0}, {1}] = useState([{2}])", design.ObjectName, "Set_Array_" + design.ObjectName, "{}"));
+
+            StringBuilder sbFunc = new StringBuilder();
+            //Set Array value function
+            sbFunc.AppendLineFormat("function Set_{0}(val, prop, index)", design.ObjectName);
+            sbFunc.AppendLine("{");
+            sbFunc.AppendLineFormat("{0}[index][prop]=val;", design.ObjectName);
+            sbFunc.AppendLineFormat("Set_Array_{0}([...{0}]);", design.ObjectName);
+            sbFunc.AppendLine("}");
+
+            // Add Array
+            sbFunc.AppendLineFormat("function Add_{0}()", design.ObjectName);
+            sbFunc.AppendLine("{");
+            sbFunc.AppendLineFormat("Set_Array_{0}([...{0}, {1}]);", design.ObjectName, "{}");
+            sbFunc.AppendLine("}");
+
+            //Remove Array
+            sbFunc.AppendLineFormat("function Remove_{0}(index)", design.ObjectName);
+            sbFunc.AppendLine("{");
+            sbFunc.AppendLineFormat("{0}.splice(index,1);", design.ObjectName);
+            sbFunc.AppendLineFormat("Set_Array_{0}([...{0}]);", design.ObjectName);
+            sbFunc.AppendLine("}");
+            codeGen.Function.Add(sbFunc.ToString());
+
 
             return codeGen;
         }
@@ -207,6 +304,7 @@ namespace Server.Util
             codeGen.Function.Add(sbFunc.ToString());
 
             codeGen.Imports.Add("import TextField from '@material-ui/core/TextField';");
+            codeGen.Imports.Add("import Button from '@material-ui/core/Button';");
 
             return codeGen;
         }
