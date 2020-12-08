@@ -22,7 +22,6 @@ export class ApibuilderComponent implements OnInit {
   selectedItem: any;
   response: any = {};
   modalRef: BsModalRef | undefined;
-  previewData: any;
 
   constructor(private dragulaService: DragulaService, private modalService: BsModalService, private openApiService: OpenApiService, private router: Router) {
     this.calcItems = [];
@@ -43,6 +42,7 @@ export class ApibuilderComponent implements OnInit {
         Node: (tree[i] as any).Node,
         Position: (tree[i] as any).Position,
         Values: (tree[i] as any).Values,
+        IsRequired: (tree[i] as any).IsRequired,
         Selected: 0,
         Id: i,
         Items: (tree[i] as any).Items,
@@ -87,16 +87,17 @@ export class ApibuilderComponent implements OnInit {
         Type: args.item.Type,
         Node: args.item.Node,
         Id: args.item.Id,
+        IsRequired: args.item.IsRequired,
         Selected: 1,
         Control: '0',
         Value: '',
-        Required: false,
+        Required: args.item.IsRequired,
         Position: args.item.Position,
         Values: args.item.Values,
         Description: '',
         Error: '',
         Items: Array<any>(),
-        ObjectName: args.item.Position+'_'+args.item.ObjectName,
+        ObjectName: args.item.Position + '_' + args.item.ObjectName,
       }
       for (let i = 0; i < args.item.Items.length; i++) {
         item.Items.push({
@@ -105,15 +106,16 @@ export class ApibuilderComponent implements OnInit {
           Type: args.item.Items[i].Type,
           Node: args.item.Items[i].Node,
           Id: args.item.Items[i].Id,
+          IsRequired: args.item.Items[i].IsRequired,
           Selected: 0,
           Control: '0',
           Value: '',
-          Required: false,
+          Required: args.item.Items[i].IsRequired,
           Position: args.item.Items[i].Position,
           Values: args.item.Items[i].Values,
           Description: '',
           Error: '',
-          ObjectName: args.item.Items[i].Position+'_'+args.item.Items[i].ObjectName,
+          ObjectName: args.item.Items[i].Position + '_' + args.item.Items[i].ObjectName,
           Items: []
         });
       }
@@ -170,7 +172,7 @@ export class ApibuilderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    document.getElementById("previewFrame")?.setAttribute("src", "http://localhost:3000/" + this.model.Preview);
   }
 
   itemSelect(item: any) {
@@ -240,20 +242,48 @@ export class ApibuilderComponent implements OnInit {
   generateCode() {
     this.response.Design = this.calcItems;
     this.openApiService.GenerateCode({
-      Header: this.response.Header, 
+      Header: this.response.Header,
       Project: this.response.Project,
       Server: this.response.Server,
-      Operation: this.model, 
+      Operation: this.model,
       Design: this.calcItems
     }).subscribe((res) => {
-      console.log(res);
+      window.location.href = 'api/export/' + res;
     });
   }
 
   preview() {
-    this.previewData = JSON.stringify({ Header: this.response.Header, Operation: this.model, Design: this.calcItems });
-    setTimeout(() => {
-      (document.getElementById("previewForm") as HTMLFormElement).submit();
-    }, 100);
+    let require: string = '';
+    for (let i = 0; i < this.arritems.length; i++) {
+      if (this.arritems[i].IsRequired) {
+        let present: boolean = false;
+        for (let j = 0; j < this.calcItems.length; j++) {
+          for (let k = 0; k < this.calcItems[j].length; k++) {
+            if ((this.arritems[i].Position + "_" + this.arritems[i].ObjectName) == this.calcItems[j][k].ObjectName) {
+              present = true;
+            }
+          }
+        }
+        if (!present) {
+          require = require + this.arritems[i].Name + ", "
+        }
+      }
+    }
+    if (require.length > 0) {
+      alert(require);
+      return;
+    }
+    console.log(this.arritems);
+    console.log(this.calcItems);
+    this.response.Design = this.calcItems;
+    this.openApiService.PreviewCode(this.model.Preview, {
+      Header: this.response.Header,
+      Project: this.response.Project,
+      Server: this.response.Server,
+      Operation: this.model,
+      Design: this.calcItems
+    }).subscribe((res) => {
+
+    });
   }
 }

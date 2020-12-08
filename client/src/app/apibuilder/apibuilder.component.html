@@ -17,6 +17,7 @@
                     [attr.nodeSelect]="item.Selected"
                     [style.cursor]="item.Type=='object' ? 'not-allowed' : (item.Selected==1 ? 'not-allowed' : 'move')">
                     <span class="glyphicon glyphicon-option-vertical"></span>
+                    <span *ngIf="item.IsRequired" class="glyphicon glyphicon-asterisk"></span>
                     <span>{{ item.Name }}</span>
                     <span style="font-size: 12px;">(<i>{{ item.Position }}</i>)</span>
                     <span *ngIf="item.Type!='object' && item.Selected==0" style="float: right;"
@@ -111,7 +112,7 @@
                 <h5 style="margin-top: 0px;">Property [{{selectedItem.Name}}-{{selectedItem.Type}}]</h5>
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="control-label col-sm-4">Level:</label>
+                        <label class="control-label col-sm-4">Label:</label>
                         <div class="col-sm-8">
                             <input type="text" name="Level" class="form-control" [(ngModel)]="selectedItem.Level">
                         </div>
@@ -162,7 +163,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-4">Required:</label>
                         <div class="col-sm-8">
-                            <input type="checkbox" style="width: 10%;" name="Required" class="form-control"
+                            <input type="checkbox" [disabled]="selectedItem.IsRequired" style="width: 10%;" name="Required" class="form-control"
                                 [(ngModel)]="selectedItem.Required">
                         </div>
                     </div>
@@ -176,7 +177,9 @@
             </ng-container>
         </div>
     </div>
-
+    <div>
+        <iframe id="previewFrame" height="600" width="1000"></iframe>
+    </div>
 </div>
 
 <ng-template #template>
@@ -208,6 +211,3 @@
         <button class="btn btn-primary" (click)="generateCode()">Generate</button>
     </div>
 </ng-template>
-<form method="POST" target="_blank" action="/api/preview" id="previewForm">
-    <input type="hidden" [(ngModel)]="previewData" name="Data">
-</form>

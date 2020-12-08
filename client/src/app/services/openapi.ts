@@ -16,4 +16,8 @@ export class OpenApiService {
   GenerateCode(data: any): Observable<any> {
     return this.http.post('api/generate', data);
   }
+
+  PreviewCode(page: string, data: any): Observable<any> {
+    return this.http.post('api/preview/'+ page, data);
+  }
 }
