@@ -1,0 +1,168 @@
+<div style="margin-top: 15px;">
+    <div style="display: flex;">
+        <div style="flex:.25">
+            <div style="padding: 0px 10px 10px 10px;border: solid 1px lightgray;border-radius: 5px;">
+                <h5>Request Parameter Tree</h5>
+                <div dragula="OPENAPI" id="left" [(dragulaModel)]="arritems">
+                    <div class="vamp" *ngFor="let item of arritems" [style.marginLeft.px]="calcMargin(item, 0)"
+                        [style.background-color]="item.Type!='object' ? '#eaf0f6' : '#d9dbde'"
+                        [attr.nodeType]="item.Type" [attr.nodeSelect]="item.Selected"
+                        [style.cursor]="item.Type=='object' ? 'not-allowed' : (item.Selected==1 ? 'not-allowed' : 'move')">
+                        <span class="glyphicon glyphicon-option-vertical"></span>
+                        <span *ngIf="item.IsRequired" class="glyphicon glyphicon-asterisk"></span>
+                        <span>{{ item.Name }}</span>
+                        <span style="font-size: 12px;">(<i>{{ item.Position }}</i>)</span>
+                        <span *ngIf="item.Type!='object' && item.Selected==0" style="float: right;"
+                            class="glyphicon glyphicon-move"></span>
+                        <span *ngIf="item.Selected==1" style="float: right;" class="glyphicon glyphicon-ok"></span>
+                        <div class="vamp" *ngFor="let arr of item.Items; let i = index"
+                            [style.marginLeft.px]="calcMargin(arr, 1)" [style.margin-top]="i==0 ? '10px' : '0'">
+                            <span class="glyphicon glyphicon-option-vertical"></span>
+                            <span>{{ arr.Name }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div
+            style="flex:.5;padding: 10px; margin-left: 10px; border: solid 1px lightgray;border-radius: 5px; background-color: #f0f8ff;">
+            <div>
+                <h5 style="margin-top: 0px;">Designer</h5>
+            </div>
+            <ng-container *ngFor="let items of calcItems; let i = index">
+                <div style="height: 90px; position: relative;">
+                    <div class="t" [attr.row]="i" dragula="OPENAPI" [(dragulaModel)]="dragItems" *ngIf="posDisplay">
+                    </div>
+                    <div class="l" [attr.row]="i" dragula="OPENAPI" [(dragulaModel)]="dragItems" *ngIf="posDisplay">
+                    </div>
+                    <div class="r" [attr.row]="i" dragula="OPENAPI" [(dragulaModel)]="dragItems" *ngIf="posDisplay">
+                    </div>
+                    <div class="b" [attr.row]="i" dragula="OPENAPI" [(dragulaModel)]="dragItems"
+                        *ngIf="posDisplay && i==calcItems.length-1"></div>
+                    <div style="height: 90px; display: flex; padding: 10px;">
+                        <ng-container *ngFor="let item of items; let j = index">
+                            <div style="flex:1; cursor: pointer;padding: 10px;" *ngIf="item.Items.length==0"
+                                [style.padding-left]="j>0 ? '20px' : '10px'"
+                                [style.border]="item.Selected==1 &&  !posDisplay? 'dashed 1px blue' : '0px'"
+                                (click)="itemSelect(item)">
+                                <div><span *ngIf="item.Required" class="glyphicon glyphicon-certificate"
+                                        style="font-size: 10px;color: red;"></span>
+                                    {{item.Level}}
+                                    <span *ngIf="item.Type=='array'" class="glyphicon glyphicon-plus"></span>
+                                    <span *ngIf="item.Selected==1" (click)="deleteItem(i, j, -1, item)"
+                                        class="glyphicon glyphicon-remove" style="float: right;"></span>
+                                </div>
+                                <input type="text" class="form-control" disabled="disabled" [(ngModel)]="item.Value">
+                            </div>
+                            <div style="flex:1; cursor: pointer;padding: 10px; position: relative; border: solid 1px lightgray;"
+                                *ngIf="item.Type=='array' && item.Items.length>0"
+                                [style.padding-left]="j>0 ? '20px' : '10px'">
+                                <div *ngIf="!posDisplay"
+                                    style="position: absolute;top: -11px; left: 10px;background-color: #f0f8ff">
+                                    <span>{{item.Level}}</span>
+                                    <span class="glyphicon glyphicon-plus" style="float: right;"></span>
+                                </div>
+                                <div style="display: flex;">
+                                    <ng-container *ngFor="let ele of item.Items; let k = index">
+                                        <div style="flex:1; cursor: pointer;padding: 0px;"
+                                            [style.padding-left]="k>0 ? '20px' : '0px'"
+                                            [style.border]="ele.Selected==1 &&  !posDisplay? 'dashed 1px blue' : '0px'"
+                                            (click)="itemSelect(ele)">
+                                            <div><span *ngIf="ele.Required" class="glyphicon glyphicon-certificate"
+                                                    style="font-size: 10px;color: red;"></span>
+                                                {{ele.Level}}
+                                                <span *ngIf="ele.Selected==1" (click)="deleteItem(i, j, k, item)"
+                                                    class="glyphicon glyphicon-remove" style="float: right;"></span>
+                                            </div>
+                                            <input type="text" class="form-control" disabled="disabled"
+                                                [(ngModel)]="ele.Value">
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="calcItems.length == 0">
+                <div class="x" [attr.row]="0" dragula="OPENAPI" [(dragulaModel)]="dragItems"
+                    style="padding: 40px; text-align: center; margin: 10px; border: dashed 1px #33475b">
+                    Drag and drop a form field here
+                </div>
+            </ng-container>
+            <div style="padding: 20px;">
+                <button class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+        <div style="flex:.25;padding: 10px; margin-left: 10px; border: solid 1px lightgray;border-radius: 5px;">
+            <h5 style="margin-top: 0px;" *ngIf="!selectedItem">Property</h5>
+            <ng-container *ngIf="!!selectedItem">
+                <h5 style="margin-top: 0px;">Property [{{selectedItem.Name}}-{{selectedItem.Type}}]</h5>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Label:</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="Level" class="form-control" [(ngModel)]="selectedItem.Level">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Description:</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="Description" class="form-control"
+                                [(ngModel)]="selectedItem.Description">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Control:</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" name="Control" [(ngModel)]="selectedItem.Control"
+                                id="controlDD">
+                                <option value="1" *ngIf="selectedItem.Type=='string' && selectedItem.Values.length==0">
+                                    TextBox</option>
+                                <option value="2" *ngIf="selectedItem.Type=='integer' && selectedItem.Values.length==0">
+                                    Numeric Box</option>
+                                <option value="3" *ngIf="selectedItem.Type=='string' && selectedItem.Values.length==0">
+                                    Email</option>
+                                <option value="4" *ngIf="selectedItem.Type=='string' && selectedItem.Values.length==0">
+                                    Date</option>
+                                <option value="5" *ngIf="selectedItem.Type=='file' && selectedItem.Values.length==0">
+                                    File</option>
+                                <option value="6" *ngIf="selectedItem.Values.length>0">Drop Down</option>
+                                <option value="1" *ngIf="selectedItem.Type=='array' && selectedItem.Items.length==0">
+                                    TextBox</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" *ngIf="selectedItem.Values.length == 0 && selectedItem.Type!='array'">
+                        <label class="control-label col-sm-4">Value:</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="Value" class="form-control" [(ngModel)]="selectedItem.Value">
+                        </div>
+                    </div>
+                    <div class="form-group" *ngIf="selectedItem.Values.length > 0">
+                        <label class="control-label col-sm-4">Enum:</label>
+                        <div class="col-sm-8" style="padding-top: 7px;">
+                            <ng-container *ngFor="let value of selectedItem.Values; let i = index">
+                                <span>{{value}}</span><span *ngIf="i<selectedItem.Values.length-1"
+                                    style="padding: 0px 10px;">|</span>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Required:</label>
+                        <div class="col-sm-8">
+                            <input type="checkbox" [disabled]="selectedItem.IsRequired" style="width: 10%;"
+                                name="Required" class="form-control" [(ngModel)]="selectedItem.Required">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">Error Msg:</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="Error" class="form-control" [(ngModel)]="selectedItem.Error">
+                        </div>
+                    </div>
+                </form>
+            </ng-container>
+        </div>
+    </div>
+</div>
