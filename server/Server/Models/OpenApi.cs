@@ -37,15 +37,21 @@ namespace Server.Models
             Params = new List<OpenApiOperationParam>();
             BodyParams = new List<OpenApiOperationParam>();
             ParamTree = new List<ParameterTree>();
+            ResponseParams = new List<OpenApiOperationParam>();
+            ResponseTree = new List<ParameterTree>();
             Server = new List<string>();
         }
         public string Name { get; set; }
         public string Verb { get; set; }
         public string Id { get; set; }
         public string Preview { get; set; }
+        public string Summary { get; set; }
         public List<OpenApiOperationParam> Params { get; set; }
         public List<OpenApiOperationParam> BodyParams { get; set; }
         public List<ParameterTree> ParamTree { get; set; }
+        public List<ParameterTree> ResponseTree { get; set; }
+        public List<OpenApiOperationParam> ResponseParams { get; set; }
+        public string ResponseType { get; set; }
         public List<string> Server { get; set; }
     }
 
@@ -61,6 +67,7 @@ namespace Server.Models
         public List<string> Values { get; set; }
         public bool IsRequired { get; set; }
         public string Description { get; set; }
+        public string In { get; set; }
         public List<OpenApiOperationParam> Property { get; set; }
     }
 
@@ -83,11 +90,18 @@ namespace Server.Models
 
     public class Request
     {
+        public Request()
+        {
+            Design = new List<List<RequestDesign>>();
+            ResDesign = new List<List<RequestDesign>>();
+        }
         public string Header { get; set; }
         public string Project { get; set; }
         public string Server { get; set; }
         public OpenApiOperation Operation { get; set; }
         public List<List<RequestDesign>> Design { get; set; }
+        public List<List<RequestDesign>> ResDesign { get; set; }
+        public bool GridView { get; set; }
     }
 
     public class RequestDesign

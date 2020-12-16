@@ -89,7 +89,11 @@ namespace Server.Util
                     {
                         if (design[i].Items.Count == 0)
                         {
-                            codeGens.Add(DrawArray(design[i], rows[i]));
+                            if (design[i].Values.Count == 0)
+                                codeGens.Add(DrawArray(design[i], rows[i]));
+                            else
+                                codeGens.Add(DrawSelect(design[i], rows[i]));
+
                         }
                         else
                         {
@@ -112,9 +116,16 @@ namespace Server.Util
             sb.AppendLine("import InputLabel from '@material-ui/core/InputLabel';");
             sb.AppendLine("import FormHelperText from '@material-ui/core/FormHelperText';");
             sb.AppendLine("import Button from '@material-ui/core/Button';");
+            sb.AppendLine("import Table from '@material-ui/core/Table';");
+            sb.AppendLine("import TableBody from '@material-ui/core/TableBody';");
+            sb.AppendLine("import TableCell from '@material-ui/core/TableCell';");
+            sb.AppendLine("import TableContainer from '@material-ui/core/TableContainer';");
+            sb.AppendLine("import TableHead from '@material-ui/core/TableHead';");
+            sb.AppendLine("import TableRow from '@material-ui/core/TableRow';");
+            sb.AppendLine("import Paper from '@material-ui/core/Paper';");
             //sb.AppendLine("import './App.css';");
 
-            sb.AppendLine("const useStyles = makeStyles((theme) => ({ root: { flexGrow: 1, padding: 10 }, rightMargin: { marginRight: 100 }, rightFloat: { float: 'right', top: -40 }, rightMarginPos: { paddingRight: 100, position: 'relative' }, rightFloatPos: { position: 'absolute', right: 0, top: 24 } }));");
+            sb.AppendLine("const useStyles = makeStyles((theme) => ({ root: { flexGrow: 1, padding: 10 }, rightMargin: { marginRight: 100 }, rightFloat: { float: 'right', top: -40 }, rightMarginPos: { paddingRight: 100, position: 'relative' }, rightFloatPos: { position: 'absolute', right: 0, top: 24 }, container: {  maxHeight: 440 } }));");
 
             sb.AppendLine("function " + page + "() {");
             sb.AppendLine("const classes = useStyles();");
@@ -136,6 +147,7 @@ namespace Server.Util
             }
 
             sb.AppendLine("return (");
+            sb.AppendLine("<div>");
             sb.AppendLine("<form className={classes.root} autoComplete='off' onSubmit={onSubmit}>");
             sb.AppendLine("<h1>" + request.Header + "</h1>");
             sb.AppendLine("<Grid container spacing={3}>");
@@ -149,6 +161,11 @@ namespace Server.Util
 
             sb.AppendLine("</Grid>");
             sb.AppendLine("</form>");
+            // add response
+            sb.AppendLine("<div style={{ padding: '10px' }}>");
+            sb.AppendLine(GenerateResponse(request));
+            sb.AppendLine("</div>");
+            sb.AppendLine("</div>");
             sb.AppendLine(");");
             sb.AppendLine("}");
 
@@ -351,6 +368,20 @@ namespace Server.Util
                 states.Add("query_" + param.Name, param.Type);
             }
             url = url.Replace("+''", "");
+            foreach (var param in request.Operation.Params)
+            {
+                if (param.In == "query")
+                {
+                    if (!url.Contains("?"))
+                    {
+                        url = url + string.Format("+'?{0}='+query_{0}", param.Name);
+                    }
+                    else
+                    {
+                        url = url + string.Format("+'&{0}='+query_{0}", param.Name);
+                    }
+                }
+            }
 
             var usedState = new List<string>();
             foreach (var gen in gens)
@@ -369,6 +400,7 @@ namespace Server.Util
                         state.Value == "integer" ? "0" : (state.Value == "array" ? "[]" : "''")));
                 }
             }
+            codeGen.States.Add("response", "const [response, Set_response] = useState([])");
 
             StringBuilder sbFunc = new StringBuilder();
             sbFunc.AppendLine("const onSubmit = useCallback((event) => {");
@@ -385,7 +417,7 @@ namespace Server.Util
 
             sbFunc.AppendLineFormat("fetch({0}, requestOptions)", url);
             sbFunc.AppendLine(".then(response => response.json())");
-            sbFunc.AppendLine(".then(data => console.log(data))");
+            sbFunc.AppendLine(".then(data => Set_response(data))");
             sbFunc.AppendLine(".catch (err => console.log(err));");
 
             sbFunc.AppendLine("})");
@@ -442,6 +474,74 @@ namespace Server.Util
                 }
             }
             sb.Append("},");
+        }
+
+        public static string GenerateResponse(Request request)
+        {
+            StringBuilder sb = new StringBuilder();
+            if (request.GridView)
+            {
+                sb.AppendLine("<TableContainer component={Paper} className={classes.container}>");
+                sb.AppendLine("<Table stickyHeader aria-label='simple table'>");
+                sb.AppendLine("<TableHead>");
+                sb.AppendLine("<TableRow>");
+                foreach(var design in request.ResDesign)
+                {
+                    foreach (var param in design)
+                    {
+                        sb.AppendLineFormat("<TableCell>{0}</TableCell>", param.Level);
+                    }
+                }
+                sb.AppendLine("</TableRow>");
+                sb.AppendLine("</TableHead>");
+                sb.AppendLine("<TableBody>");
+                sb.AppendLine("{response.map((obj, index) => (");
+                sb.AppendLine("<TableRow key={index}>");
+
+                foreach (var design in request.ResDesign)
+                {
+                    foreach (var param in design)
+                    {
+                        if(param.Type == "array")
+                        {
+                            if (param.Items.Count == 0)
+                            {
+                                sb.AppendLine("<TableCell>");
+                                sb.AppendLine("<ul style={{ padding: '16px' }}>");
+                                sb.AppendLine("{(obj." + param.ObjectName.Replace("_", "?.") + " || []).map((sub, i) => (");
+                                sb.AppendLine("<li key={i}>{sub}</li>");
+                                sb.AppendLine("))}");
+                                sb.AppendLine("</ul>");
+                                sb.AppendLine("</TableCell>");
+                            }
+                            else
+                            {
+                                sb.AppendLine("<TableCell>");
+                                sb.AppendLine("{(obj." + param.ObjectName.Replace("_", "?.") + " || []).map((sub, i) => (");
+                                sb.AppendLine("<ul key={i} style={{ padding: '16px' }}>");
+                                foreach (var item in param.Items)
+                                {
+                                    sb.AppendLine("<li>" + item.Level + ":- {" + item.ObjectName.Replace(param.Name, "sub").Replace("_", "?.") + "}</li>");
+                                }
+                                sb.AppendLine("</ul>");
+                                sb.AppendLine("))}");
+                                sb.AppendLine("</TableCell>");
+                            }
+                        }
+                        else
+                        {
+                            sb.AppendLine("<TableCell>{obj." + param.ObjectName.Replace("_", "?.") + "}</TableCell>");
+                        }
+                    }
+                }
+
+                sb.AppendLine("</TableRow>");
+                sb.AppendLine("))}");
+                sb.AppendLine("</TableBody>");
+                sb.AppendLine("</Table>");
+                sb.AppendLine("</TableContainer>");
+            }
+            return sb.ToString();
         }
     }
 }

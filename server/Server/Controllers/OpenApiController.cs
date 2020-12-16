@@ -53,7 +53,8 @@ namespace Server.Controllers
                             Id = operation.Value.OperationId,
                             Name = path.Key,
                             Verb = operation.Key.ToString(),
-                            Preview = preview
+                            Preview = preview,
+                            Summary = operation.Value.Summary,
                         };
 
                         foreach (var param in operation.Value.Parameters)
@@ -63,7 +64,8 @@ namespace Server.Controllers
                                 Name = param.Name,
                                 Type = param.Schema.Type,
                                 IsRequired = param.Required,
-                                Description = param.Description
+                                Description = param.Description,
+                                In = param.In.HasValue ? param.In.Value.ToString().ToLower() : "query"
                             };
 
                             if (param.Schema.Enum != null && param.Schema.Enum.Count > 0)
@@ -88,7 +90,7 @@ namespace Server.Controllers
                                 Type = objparam.Type,
                                 ObjectName = objparam.Name,
                                 Node = 1,
-                                Position = "query",
+                                Position = param.In.HasValue? param.In.Value.ToString().ToLower(): "query",
                                 Values = objparam.Values,
                                 IsRequired = objparam.IsRequired
                             });
@@ -121,6 +123,42 @@ namespace Server.Controllers
                                 }
                                 else
                                     objOperation.ParamTree.Add(item);
+                            }
+                        }
+
+                        var response = operation.Value.Responses.Where(x => x.Key == "200").FirstOrDefault();
+                        if (response.Key != null)
+                        {
+                            if (response.Value != null && response.Value.Content.Count > 0)
+                            {
+                                var resContent = response.Value.Content.FirstOrDefault();
+                                objOperation.ResponseType = resContent.Value.Schema.Type;
+                                if (resContent.Value.Schema.Type == "object" || resContent.Value.Schema.Type == "array")
+                                {
+                                    objOperation.ResponseParams = GetBodyParam(resContent.Value.Schema, null, null, objOperation.ResponseTree, 0, new List<string>())[0].Property;
+                                }
+                                else
+                                {
+                                    objOperation.ResponseParams.Add(new OpenApiOperationParam() { Type = resContent.Value.Schema.Type, Name = "Output" });
+                                    objOperation.ResponseTree.Add(new ParameterTree() { Type = resContent.Value.Schema.Type, Node = 1, Name = "Output", ObjectName = "Output" });
+                                }
+                            }
+                        }
+
+                        if (objOperation.ResponseTree.Count > 0)
+                        {
+                            var paramTree = objOperation.ResponseTree.ToList();
+                            objOperation.ResponseTree.Clear();
+                            foreach (var item in paramTree)
+                            {
+                                if (objOperation.ResponseTree.Count > 0
+                                    && objOperation.ResponseTree.Last().Type == "array"
+                                    && objOperation.ResponseTree.Last().Node < item.Node)
+                                {
+                                    objOperation.ResponseTree.Last().Items.Add(item);
+                                }
+                                else
+                                    objOperation.ResponseTree.Add(item);
                             }
                         }
 
