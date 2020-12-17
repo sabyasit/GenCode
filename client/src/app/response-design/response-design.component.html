@@ -31,38 +31,42 @@
                 <div style="flex: .5;text-align: right;">
                     <span style="padding-right: 10px;">Datatable Template</span>
                     <label class="switch">
-                        <input type="checkbox" [disabled]="gridViewDisable" [(ngModel)]="gridView">
+                        <input type="checkbox" [disabled]="gridViewDisable" [(ngModel)]="gridView" (change)="reset($event)">
                         <span class="slider round"></span>
                     </label>
                 </div>
             </div>
-            <ng-container *ngIf="gridView">
+            <ng-container>
                 <ng-container *ngIf="calcItems.length > 0">
                     <ng-container *ngFor="let items of calcItems; let i = index">
                         <div style="height: 60px; position: relative;">
                             <div class="t" [attr.row]="i" dragula="RESOPENAPI" [(dragulaModel)]="dragItems"
                                 *ngIf="posDisplay">
                             </div>
+                            <div class="l" [attr.row]="i" dragula="RESOPENAPI" [(dragulaModel)]="dragItems" *ngIf="posDisplay && !gridView">
+                            </div>
+                            <div class="r" [attr.row]="i" dragula="RESOPENAPI" [(dragulaModel)]="dragItems" *ngIf="posDisplay && !gridView">
+                            </div>
                             <div class="b" [attr.row]="i" dragula="RESOPENAPI" [(dragulaModel)]="dragItems"
                                 *ngIf="posDisplay && i==calcItems.length-1"></div>
                             <div style="height: 60px; display: flex; padding: 10px;">
                                 <ng-container *ngFor="let item of items; let j = index">
-                                    <div style="flex:1; cursor: pointer;padding: 10px;" *ngIf="item.Items.length==0"
-                                        [style.padding-left]="j>0 ? '20px' : '10px'"
+                                    <div style="flex:1; cursor: pointer;padding: 10px; background-color: white;" *ngIf="item.Items.length==0"
+                                        [style.margin-left]="j>0 ? '20px' : '10px'"
                                         [style.border]="item.Selected==1 &&  !posDisplay? 'dashed 1px blue' : 'solid 1px lightgray'"
                                         (click)="itemSelect(item)">
                                         <b>{{item.Level}}</b>
                                         <span *ngIf="item.Selected==1" (click)="deleteItem(i, j, -1, item)"
                                             class="glyphicon glyphicon-remove" style="float: right;"></span>
                                     </div>
-                                    <div style="flex:1; cursor: pointer;padding: 10px; position: relative; border: solid 1px lightgray;"
+                                    <div style="flex:1; cursor: pointer;padding: 10px; position: relative; border: solid 1px lightgray;background-color: white;"
                                         *ngIf="item.Type=='array' && item.Items.length>0"
-                                        [style.padding-left]="j>0 ? '20px' : '10px'">
+                                        [style.margin-left]="j>0 ? '20px' : '10px'">
                                         <span style="position: absolute;top: -11px;">{{item.Level}}</span>
                                         <div style="display: flex;">
                                             <ng-container *ngFor="let ele of item.Items; let k = index">
                                                 <div style="flex:1; cursor: pointer;padding: 0px;"
-                                                    [style.padding-left]="k>0 ? '20px' : '0px'"
+                                                    [style.margin-left]="k>0 ? '20px' : '0px'"
                                                     [style.border]="ele.Selected==1 &&  !posDisplay? 'dashed 1px blue' : 'solid 1px lightgray'"
                                                     (click)="itemSelect(ele)">
                                                     <b>{{ele.Level}}</b>
@@ -80,7 +84,8 @@
                 <ng-container *ngIf="calcItems.length == 0">
                     <div class="x" [attr.row]="0" dragula="RESOPENAPI" [(dragulaModel)]="dragItems"
                         style="padding: 40px; text-align: center; margin: 10px; border: dashed 1px #33475b">
-                        Drag and drop grid column
+                        <span *ngIf="gridView">Drag and drop grid column</span>
+                        <span *ngIf="!gridView">Drag and drop item</span>
                     </div>
                 </ng-container>
             </ng-container>
@@ -89,7 +94,7 @@
             <h5 style="margin-top: 0px;" *ngIf="!selectedItem">Property</h5>
             <ng-container *ngIf="!!selectedItem">
                 <h5 style="margin-top: 0px;">Property [{{selectedItem.Name}}-{{selectedItem.Type}}]</h5>
-                <form class="form-horizontal">
+                <form class="form-horizontal" *ngIf="gridView">
                     <div class="form-group" *ngIf="!!selectedItem.Parent">
                         <label class="control-label col-sm-4">ColumnHeader:</label>
                         <div class="col-sm-8">
@@ -100,6 +105,16 @@
                         <label class="control-label col-sm-4">
                            <span *ngIf="!selectedItem.Parent">ColumnHeader:</span>
                            <span *ngIf="!!selectedItem.Parent">Label:</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text" name="Level" class="form-control" [(ngModel)]="selectedItem.Level">
+                        </div>
+                    </div>
+                </form>
+                <form class="form-horizontal" *ngIf="!gridView">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4">
+                           <span>Label:</span>
                         </label>
                         <div class="col-sm-8">
                             <input type="text" name="Level" class="form-control" [(ngModel)]="selectedItem.Level">

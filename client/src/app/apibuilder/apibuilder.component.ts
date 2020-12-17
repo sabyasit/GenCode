@@ -20,7 +20,7 @@ import { ResponseDesignComponent } from '../response-design/response-design.comp
 export class ApibuilderComponent implements OnInit {
   @ViewChild(RequestDesignComponent) ReqDesign!: RequestDesignComponent;
   @ViewChild(ResponseDesignComponent) ResDesign!: ResponseDesignComponent;
-  
+
   model: any;
   response: any = {
     Server: '',
@@ -29,19 +29,22 @@ export class ApibuilderComponent implements OnInit {
     Operation: {},
     GridView: true,
     Design: [],
-    ResDesign:[]
+    ResDesign: [],
+    ResponseType: ''
   };
 
   constructor(private router: Router, private modalService: BsModalService, private openApiService: OpenApiService) {
     this.model = this.router.getCurrentNavigation()?.extras.state;
+    this.response.Header = this.model.Summary;
     this.response.Server = this.model.Server[0];
+    this.response.ResponseType = this.model.ResponseType;
   }
 
   ngOnInit(): void {
     document.getElementById("previewFrame")?.setAttribute("src", "http://localhost:3000/" + this.model.Preview);
   }
 
-  buildResponse(){
+  buildResponse() {
     this.response.Operation = this.model;
     this.response.Design = this.ReqDesign.calcItems;
     this.response.ResDesign = _.cloneDeep(this.ResDesign.calcItems);

@@ -171,7 +171,7 @@ export class ResponseDesignComponent implements OnInit {
     return item.Node * 20;
   }
 
-  itemSelect(item: any){
+  itemSelect(item: any) {
     for (let i = 0; i < this.calcItems.length; i++) {
       for (let j = 0; j < this.calcItems[i].length; j++) {
         this.calcItems[i][j].Selected = 0;
@@ -216,5 +216,13 @@ export class ResponseDesignComponent implements OnInit {
     }
 
     this.selectedItem = undefined;
+  }
+
+  reset(e: any) {
+    this.calcItems = [];
+    this.selectedItem = undefined;
+    for (let index = 0; index < this.arritems.length; index++) {
+      this.arritems[index].Selected = 0;
+    }
   }
 }

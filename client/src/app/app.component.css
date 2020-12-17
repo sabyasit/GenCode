@@ -58,4 +58,29 @@ gridster div.gridster-column {
   
   a:link, a:visited, a:hover, a:active { color: lightblue; } */
 
+  .stepper {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    padding: 20px;
+  }
+  .cp,
+  .ua,
+  .dv,
+  .gt {
+    padding: 10px;
+    background: #d6cfcf;
+    border-radius: 20px;
+  }
+  
+  .hr {
+    width: 30px;
+    height: 1px;
+    background: #484545;
+  }
+  
+  .active {
+    background: #0fbd0f;
+    color: white;
+  }
   
