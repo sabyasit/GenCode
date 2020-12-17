@@ -1,0 +1,2974 @@
+{
+    "Tags": [
+        {
+            "Tag": "pet",
+            "Description": "Everything about your Pets",
+            "Operations": [
+                {
+                    "Name": "/pet/{petId}/uploadImage",
+                    "Verb": "Post",
+                    "Id": "uploadFile",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "uploads an image",
+                    "Params": [
+                        {
+                            "Name": "petId",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": "ID of pet to update",
+                            "In": "path",
+                            "Property": []
+                        }
+                    ],
+                    "BodyParams": [
+                        {
+                            "Name": "additionalMetadata",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": "Additional data to pass to server",
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "file",
+                            "Type": "file",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": "file to upload",
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ParamTree": [
+                        {
+                            "Name": "petId",
+                            "ObjectName": "petId",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "path",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "additionalMetadata",
+                            "ObjectName": "additionalMetadata",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "file",
+                            "ObjectName": "file",
+                            "Type": "file",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [
+                        {
+                            "Name": "code",
+                            "ObjectName": "code",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "type",
+                            "ObjectName": "type",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "message",
+                            "ObjectName": "message",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseParams": [
+                        {
+                            "Name": "code",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "type",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "message",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ResponseType": "object",
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/pet",
+                    "Verb": "Post",
+                    "Id": "addPet",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Add a new pet to the store",
+                    "Params": [],
+                    "BodyParams": [
+                        {
+                            "Name": "id",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "category",
+                            "Type": "object",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": [
+                                {
+                                    "Name": "id",
+                                    "Type": "integer",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                },
+                                {
+                                    "Name": "name",
+                                    "Type": "string",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "name",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "photoUrls",
+                            "Type": "array",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "tags",
+                            "Type": "array",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": [
+                                {
+                                    "Name": "id",
+                                    "Type": "integer",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                },
+                                {
+                                    "Name": "name",
+                                    "Type": "string",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "status",
+                            "Type": "string",
+                            "Values": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ],
+                            "IsRequired": false,
+                            "Description": "pet status in the store",
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ParamTree": [
+                        {
+                            "Name": "id",
+                            "ObjectName": "id",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "category",
+                            "ObjectName": "category",
+                            "Type": "object",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "id",
+                            "ObjectName": "category_id",
+                            "Type": "integer",
+                            "Node": 2,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "name",
+                            "ObjectName": "category_name",
+                            "Type": "string",
+                            "Node": 2,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "name",
+                            "ObjectName": "name",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "photoUrls",
+                            "ObjectName": "photoUrls",
+                            "Type": "array",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "tags",
+                            "ObjectName": "tags",
+                            "Type": "array",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": [
+                                {
+                                    "Name": "id",
+                                    "ObjectName": "tags_id",
+                                    "Type": "integer",
+                                    "Node": 2,
+                                    "IsRequired": false,
+                                    "Position": "body",
+                                    "Values": [],
+                                    "Items": []
+                                },
+                                {
+                                    "Name": "name",
+                                    "ObjectName": "tags_name",
+                                    "Type": "string",
+                                    "Node": 2,
+                                    "IsRequired": false,
+                                    "Position": "body",
+                                    "Values": [],
+                                    "Items": []
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "status",
+                            "ObjectName": "status",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [],
+                    "ResponseParams": [],
+                    "ResponseType": null,
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/pet",
+                    "Verb": "Put",
+                    "Id": "updatePet",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Update an existing pet",
+                    "Params": [],
+                    "BodyParams": [
+                        {
+                            "Name": "id",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "category",
+                            "Type": "object",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": [
+                                {
+                                    "Name": "id",
+                                    "Type": "integer",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                },
+                                {
+                                    "Name": "name",
+                                    "Type": "string",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "name",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "photoUrls",
+                            "Type": "array",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "tags",
+                            "Type": "array",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": [
+                                {
+                                    "Name": "id",
+                                    "Type": "integer",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                },
+                                {
+                                    "Name": "name",
+                                    "Type": "string",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "status",
+                            "Type": "string",
+                            "Values": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ],
+                            "IsRequired": false,
+                            "Description": "pet status in the store",
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ParamTree": [
+                        {
+                            "Name": "id",
+                            "ObjectName": "id",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "category",
+                            "ObjectName": "category",
+                            "Type": "object",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "id",
+                            "ObjectName": "category_id",
+                            "Type": "integer",
+                            "Node": 2,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "name",
+                            "ObjectName": "category_name",
+                            "Type": "string",
+                            "Node": 2,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "name",
+                            "ObjectName": "name",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "photoUrls",
+                            "ObjectName": "photoUrls",
+                            "Type": "array",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "tags",
+                            "ObjectName": "tags",
+                            "Type": "array",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": [
+                                {
+                                    "Name": "id",
+                                    "ObjectName": "tags_id",
+                                    "Type": "integer",
+                                    "Node": 2,
+                                    "IsRequired": false,
+                                    "Position": "body",
+                                    "Values": [],
+                                    "Items": []
+                                },
+                                {
+                                    "Name": "name",
+                                    "ObjectName": "tags_name",
+                                    "Type": "string",
+                                    "Node": 2,
+                                    "IsRequired": false,
+                                    "Position": "body",
+                                    "Values": [],
+                                    "Items": []
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "status",
+                            "ObjectName": "status",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [],
+                    "ResponseParams": [],
+                    "ResponseType": null,
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/pet/findByStatus",
+                    "Verb": "Get",
+                    "Id": "findPetsByStatus",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Finds Pets by status",
+                    "Params": [
+                        {
+                            "Name": "status",
+                            "Type": "array",
+                            "Values": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ],
+                            "IsRequired": true,
+                            "Description": "Status values that need to be considered for filter",
+                            "In": "query",
+                            "Property": []
+                        }
+                    ],
+                    "BodyParams": [],
+                    "ParamTree": [
+                        {
+                            "Name": "status",
+                            "ObjectName": "status",
+                            "Type": "array",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "query",
+                            "Values": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [
+                        {
+                            "Name": "id",
+                            "ObjectName": "id",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "category",
+                            "ObjectName": "category",
+                            "Type": "object",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "id",
+                            "ObjectName": "category_id",
+                            "Type": "integer",
+                            "Node": 2,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "name",
+                            "ObjectName": "category_name",
+                            "Type": "string",
+                            "Node": 2,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "name",
+                            "ObjectName": "name",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "photoUrls",
+                            "ObjectName": "photoUrls",
+                            "Type": "array",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "tags",
+                            "ObjectName": "tags",
+                            "Type": "array",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": [
+                                {
+                                    "Name": "id",
+                                    "ObjectName": "tags_id",
+                                    "Type": "integer",
+                                    "Node": 2,
+                                    "IsRequired": false,
+                                    "Position": "body",
+                                    "Values": [],
+                                    "Items": []
+                                },
+                                {
+                                    "Name": "name",
+                                    "ObjectName": "tags_name",
+                                    "Type": "string",
+                                    "Node": 2,
+                                    "IsRequired": false,
+                                    "Position": "body",
+                                    "Values": [],
+                                    "Items": []
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "status",
+                            "ObjectName": "status",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseParams": [
+                        {
+                            "Name": "id",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "category",
+                            "Type": "object",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": [
+                                {
+                                    "Name": "id",
+                                    "Type": "integer",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                },
+                                {
+                                    "Name": "name",
+                                    "Type": "string",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "name",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "photoUrls",
+                            "Type": "array",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "tags",
+                            "Type": "array",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": [
+                                {
+                                    "Name": "id",
+                                    "Type": "integer",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                },
+                                {
+                                    "Name": "name",
+                                    "Type": "string",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "status",
+                            "Type": "string",
+                            "Values": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ],
+                            "IsRequired": false,
+                            "Description": "pet status in the store",
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ResponseType": "array",
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/pet/findByTags",
+                    "Verb": "Get",
+                    "Id": "findPetsByTags",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Finds Pets by tags",
+                    "Params": [
+                        {
+                            "Name": "tags",
+                            "Type": "array",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": "Tags to filter by",
+                            "In": "query",
+                            "Property": []
+                        }
+                    ],
+                    "BodyParams": [],
+                    "ParamTree": [
+                        {
+                            "Name": "tags",
+                            "ObjectName": "tags",
+                            "Type": "array",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "query",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [
+                        {
+                            "Name": "id",
+                            "ObjectName": "id",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "category",
+                            "ObjectName": "category",
+                            "Type": "object",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "id",
+                            "ObjectName": "category_id",
+                            "Type": "integer",
+                            "Node": 2,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "name",
+                            "ObjectName": "category_name",
+                            "Type": "string",
+                            "Node": 2,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "name",
+                            "ObjectName": "name",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "photoUrls",
+                            "ObjectName": "photoUrls",
+                            "Type": "array",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "tags",
+                            "ObjectName": "tags",
+                            "Type": "array",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": [
+                                {
+                                    "Name": "id",
+                                    "ObjectName": "tags_id",
+                                    "Type": "integer",
+                                    "Node": 2,
+                                    "IsRequired": false,
+                                    "Position": "body",
+                                    "Values": [],
+                                    "Items": []
+                                },
+                                {
+                                    "Name": "name",
+                                    "ObjectName": "tags_name",
+                                    "Type": "string",
+                                    "Node": 2,
+                                    "IsRequired": false,
+                                    "Position": "body",
+                                    "Values": [],
+                                    "Items": []
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "status",
+                            "ObjectName": "status",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseParams": [
+                        {
+                            "Name": "id",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "category",
+                            "Type": "object",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": [
+                                {
+                                    "Name": "id",
+                                    "Type": "integer",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                },
+                                {
+                                    "Name": "name",
+                                    "Type": "string",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "name",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "photoUrls",
+                            "Type": "array",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "tags",
+                            "Type": "array",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": [
+                                {
+                                    "Name": "id",
+                                    "Type": "integer",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                },
+                                {
+                                    "Name": "name",
+                                    "Type": "string",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "status",
+                            "Type": "string",
+                            "Values": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ],
+                            "IsRequired": false,
+                            "Description": "pet status in the store",
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ResponseType": "array",
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/pet/{petId}",
+                    "Verb": "Get",
+                    "Id": "getPetById",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Find pet by ID",
+                    "Params": [
+                        {
+                            "Name": "petId",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": "ID of pet to return",
+                            "In": "path",
+                            "Property": []
+                        }
+                    ],
+                    "BodyParams": [],
+                    "ParamTree": [
+                        {
+                            "Name": "petId",
+                            "ObjectName": "petId",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "path",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [
+                        {
+                            "Name": "id",
+                            "ObjectName": "id",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "category",
+                            "ObjectName": "category",
+                            "Type": "object",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "id",
+                            "ObjectName": "category_id",
+                            "Type": "integer",
+                            "Node": 2,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "name",
+                            "ObjectName": "category_name",
+                            "Type": "string",
+                            "Node": 2,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "name",
+                            "ObjectName": "name",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "photoUrls",
+                            "ObjectName": "photoUrls",
+                            "Type": "array",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "tags",
+                            "ObjectName": "tags",
+                            "Type": "array",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": [
+                                {
+                                    "Name": "id",
+                                    "ObjectName": "tags_id",
+                                    "Type": "integer",
+                                    "Node": 2,
+                                    "IsRequired": false,
+                                    "Position": "body",
+                                    "Values": [],
+                                    "Items": []
+                                },
+                                {
+                                    "Name": "name",
+                                    "ObjectName": "tags_name",
+                                    "Type": "string",
+                                    "Node": 2,
+                                    "IsRequired": false,
+                                    "Position": "body",
+                                    "Values": [],
+                                    "Items": []
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "status",
+                            "ObjectName": "status",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseParams": [
+                        {
+                            "Name": "id",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "category",
+                            "Type": "object",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": [
+                                {
+                                    "Name": "id",
+                                    "Type": "integer",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                },
+                                {
+                                    "Name": "name",
+                                    "Type": "string",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "name",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "photoUrls",
+                            "Type": "array",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "tags",
+                            "Type": "array",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": [
+                                {
+                                    "Name": "id",
+                                    "Type": "integer",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                },
+                                {
+                                    "Name": "name",
+                                    "Type": "string",
+                                    "Values": [],
+                                    "IsRequired": false,
+                                    "Description": null,
+                                    "In": null,
+                                    "Property": []
+                                }
+                            ]
+                        },
+                        {
+                            "Name": "status",
+                            "Type": "string",
+                            "Values": [
+                                "available",
+                                "pending",
+                                "sold"
+                            ],
+                            "IsRequired": false,
+                            "Description": "pet status in the store",
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ResponseType": "object",
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/pet/{petId}",
+                    "Verb": "Post",
+                    "Id": "updatePetWithForm",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Updates a pet in the store with form data",
+                    "Params": [
+                        {
+                            "Name": "petId",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": "ID of pet that needs to be updated",
+                            "In": "path",
+                            "Property": []
+                        }
+                    ],
+                    "BodyParams": [
+                        {
+                            "Name": "name",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": "Updated name of the pet",
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "status",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": "Updated status of the pet",
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ParamTree": [
+                        {
+                            "Name": "petId",
+                            "ObjectName": "petId",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "path",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "name",
+                            "ObjectName": "name",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "status",
+                            "ObjectName": "status",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [],
+                    "ResponseParams": [],
+                    "ResponseType": null,
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/pet/{petId}",
+                    "Verb": "Delete",
+                    "Id": "deletePet",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Deletes a pet",
+                    "Params": [
+                        {
+                            "Name": "api_key",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": "header",
+                            "Property": []
+                        },
+                        {
+                            "Name": "petId",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": "Pet id to delete",
+                            "In": "path",
+                            "Property": []
+                        }
+                    ],
+                    "BodyParams": [],
+                    "ParamTree": [
+                        {
+                            "Name": "api_key",
+                            "ObjectName": "api_key",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "header",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "petId",
+                            "ObjectName": "petId",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "path",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [],
+                    "ResponseParams": [],
+                    "ResponseType": null,
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                }
+            ]
+        },
+        {
+            "Tag": "store",
+            "Description": "Access to Petstore orders",
+            "Operations": [
+                {
+                    "Name": "/store/order",
+                    "Verb": "Post",
+                    "Id": "placeOrder",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Place an order for a pet",
+                    "Params": [],
+                    "BodyParams": [
+                        {
+                            "Name": "id",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "petId",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "quantity",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "shipDate",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "status",
+                            "Type": "string",
+                            "Values": [
+                                "placed",
+                                "approved",
+                                "delivered"
+                            ],
+                            "IsRequired": false,
+                            "Description": "Order Status",
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "complete",
+                            "Type": "boolean",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ParamTree": [
+                        {
+                            "Name": "id",
+                            "ObjectName": "id",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "petId",
+                            "ObjectName": "petId",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "quantity",
+                            "ObjectName": "quantity",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "shipDate",
+                            "ObjectName": "shipDate",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "status",
+                            "ObjectName": "status",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [
+                                "placed",
+                                "approved",
+                                "delivered"
+                            ],
+                            "Items": []
+                        },
+                        {
+                            "Name": "complete",
+                            "ObjectName": "complete",
+                            "Type": "boolean",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [
+                        {
+                            "Name": "id",
+                            "ObjectName": "id",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "petId",
+                            "ObjectName": "petId",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "quantity",
+                            "ObjectName": "quantity",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "shipDate",
+                            "ObjectName": "shipDate",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "status",
+                            "ObjectName": "status",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [
+                                "placed",
+                                "approved",
+                                "delivered"
+                            ],
+                            "Items": []
+                        },
+                        {
+                            "Name": "complete",
+                            "ObjectName": "complete",
+                            "Type": "boolean",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseParams": [
+                        {
+                            "Name": "id",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "petId",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "quantity",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "shipDate",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "status",
+                            "Type": "string",
+                            "Values": [
+                                "placed",
+                                "approved",
+                                "delivered"
+                            ],
+                            "IsRequired": false,
+                            "Description": "Order Status",
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "complete",
+                            "Type": "boolean",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ResponseType": "object",
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/store/order/{orderId}",
+                    "Verb": "Get",
+                    "Id": "getOrderById",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Find purchase order by ID",
+                    "Params": [
+                        {
+                            "Name": "orderId",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": "ID of pet that needs to be fetched",
+                            "In": "path",
+                            "Property": []
+                        }
+                    ],
+                    "BodyParams": [],
+                    "ParamTree": [
+                        {
+                            "Name": "orderId",
+                            "ObjectName": "orderId",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "path",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [
+                        {
+                            "Name": "id",
+                            "ObjectName": "id",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "petId",
+                            "ObjectName": "petId",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "quantity",
+                            "ObjectName": "quantity",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "shipDate",
+                            "ObjectName": "shipDate",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "status",
+                            "ObjectName": "status",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [
+                                "placed",
+                                "approved",
+                                "delivered"
+                            ],
+                            "Items": []
+                        },
+                        {
+                            "Name": "complete",
+                            "ObjectName": "complete",
+                            "Type": "boolean",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseParams": [
+                        {
+                            "Name": "id",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "petId",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "quantity",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "shipDate",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "status",
+                            "Type": "string",
+                            "Values": [
+                                "placed",
+                                "approved",
+                                "delivered"
+                            ],
+                            "IsRequired": false,
+                            "Description": "Order Status",
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "complete",
+                            "Type": "boolean",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ResponseType": "object",
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/store/order/{orderId}",
+                    "Verb": "Delete",
+                    "Id": "deleteOrder",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Delete purchase order by ID",
+                    "Params": [
+                        {
+                            "Name": "orderId",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": "ID of the order that needs to be deleted",
+                            "In": "path",
+                            "Property": []
+                        }
+                    ],
+                    "BodyParams": [],
+                    "ParamTree": [
+                        {
+                            "Name": "orderId",
+                            "ObjectName": "orderId",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "path",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [],
+                    "ResponseParams": [],
+                    "ResponseType": null,
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/store/inventory",
+                    "Verb": "Get",
+                    "Id": "getInventory",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Returns pet inventories by status",
+                    "Params": [],
+                    "BodyParams": [],
+                    "ParamTree": [],
+                    "ResponseTree": [],
+                    "ResponseParams": [],
+                    "ResponseType": "object",
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                }
+            ]
+        },
+        {
+            "Tag": "user",
+            "Description": "Operations about user",
+            "Operations": [
+                {
+                    "Name": "/user/createWithArray",
+                    "Verb": "Post",
+                    "Id": "createUsersWithArrayInput",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Creates list of users with given input array",
+                    "Params": [],
+                    "BodyParams": [
+                        {
+                            "Name": "id",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "username",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "firstName",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "lastName",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "email",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "password",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "phone",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "userStatus",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": "User Status",
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ParamTree": [
+                        {
+                            "Name": "id",
+                            "ObjectName": "id",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "username",
+                            "ObjectName": "username",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "firstName",
+                            "ObjectName": "firstName",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "lastName",
+                            "ObjectName": "lastName",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "email",
+                            "ObjectName": "email",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "password",
+                            "ObjectName": "password",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "phone",
+                            "ObjectName": "phone",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "userStatus",
+                            "ObjectName": "userStatus",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [],
+                    "ResponseParams": [],
+                    "ResponseType": null,
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/user/createWithList",
+                    "Verb": "Post",
+                    "Id": "createUsersWithListInput",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Creates list of users with given input array",
+                    "Params": [],
+                    "BodyParams": [
+                        {
+                            "Name": "id",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "username",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "firstName",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "lastName",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "email",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "password",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "phone",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "userStatus",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": "User Status",
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ParamTree": [
+                        {
+                            "Name": "id",
+                            "ObjectName": "id",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "username",
+                            "ObjectName": "username",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "firstName",
+                            "ObjectName": "firstName",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "lastName",
+                            "ObjectName": "lastName",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "email",
+                            "ObjectName": "email",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "password",
+                            "ObjectName": "password",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "phone",
+                            "ObjectName": "phone",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "userStatus",
+                            "ObjectName": "userStatus",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [],
+                    "ResponseParams": [],
+                    "ResponseType": null,
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/user/{username}",
+                    "Verb": "Get",
+                    "Id": "getUserByName",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Get user by user name",
+                    "Params": [
+                        {
+                            "Name": "username",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": "The name that needs to be fetched. Use user1 for testing. ",
+                            "In": "path",
+                            "Property": []
+                        }
+                    ],
+                    "BodyParams": [],
+                    "ParamTree": [
+                        {
+                            "Name": "username",
+                            "ObjectName": "username",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "path",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [
+                        {
+                            "Name": "id",
+                            "ObjectName": "id",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "username",
+                            "ObjectName": "username",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "firstName",
+                            "ObjectName": "firstName",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "lastName",
+                            "ObjectName": "lastName",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "email",
+                            "ObjectName": "email",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "password",
+                            "ObjectName": "password",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "phone",
+                            "ObjectName": "phone",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "userStatus",
+                            "ObjectName": "userStatus",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseParams": [
+                        {
+                            "Name": "id",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "username",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "firstName",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "lastName",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "email",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "password",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "phone",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "userStatus",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": "User Status",
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ResponseType": "object",
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/user/{username}",
+                    "Verb": "Put",
+                    "Id": "updateUser",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Updated user",
+                    "Params": [
+                        {
+                            "Name": "username",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": "name that need to be updated",
+                            "In": "path",
+                            "Property": []
+                        }
+                    ],
+                    "BodyParams": [
+                        {
+                            "Name": "id",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "username",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "firstName",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "lastName",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "email",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "password",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "phone",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "userStatus",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": "User Status",
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ParamTree": [
+                        {
+                            "Name": "username",
+                            "ObjectName": "username",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "path",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "id",
+                            "ObjectName": "id",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "username",
+                            "ObjectName": "username",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "firstName",
+                            "ObjectName": "firstName",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "lastName",
+                            "ObjectName": "lastName",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "email",
+                            "ObjectName": "email",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "password",
+                            "ObjectName": "password",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "phone",
+                            "ObjectName": "phone",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "userStatus",
+                            "ObjectName": "userStatus",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [],
+                    "ResponseParams": [],
+                    "ResponseType": null,
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/user/{username}",
+                    "Verb": "Delete",
+                    "Id": "deleteUser",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Delete user",
+                    "Params": [
+                        {
+                            "Name": "username",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": "The name that needs to be deleted",
+                            "In": "path",
+                            "Property": []
+                        }
+                    ],
+                    "BodyParams": [],
+                    "ParamTree": [
+                        {
+                            "Name": "username",
+                            "ObjectName": "username",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "path",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [],
+                    "ResponseParams": [],
+                    "ResponseType": null,
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/user/login",
+                    "Verb": "Get",
+                    "Id": "loginUser",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Logs user into the system",
+                    "Params": [
+                        {
+                            "Name": "username",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": "The user name for login",
+                            "In": "query",
+                            "Property": []
+                        },
+                        {
+                            "Name": "password",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": true,
+                            "Description": "The password for login in clear text",
+                            "In": "query",
+                            "Property": []
+                        }
+                    ],
+                    "BodyParams": [],
+                    "ParamTree": [
+                        {
+                            "Name": "username",
+                            "ObjectName": "username",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "query",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "password",
+                            "ObjectName": "password",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": true,
+                            "Position": "query",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [
+                        {
+                            "Name": "Output",
+                            "ObjectName": "Output",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": null,
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseParams": [
+                        {
+                            "Name": "Output",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ResponseType": "string",
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/user/logout",
+                    "Verb": "Get",
+                    "Id": "logoutUser",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Logs out current logged in user session",
+                    "Params": [],
+                    "BodyParams": [],
+                    "ParamTree": [],
+                    "ResponseTree": [],
+                    "ResponseParams": [],
+                    "ResponseType": null,
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                },
+                {
+                    "Name": "/user",
+                    "Verb": "Post",
+                    "Id": "createUser",
+                    "Preview": "APP202012171549569309",
+                    "Summary": "Create user",
+                    "Params": [],
+                    "BodyParams": [
+                        {
+                            "Name": "id",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "username",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "firstName",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "lastName",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "email",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "password",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "phone",
+                            "Type": "string",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": null,
+                            "In": null,
+                            "Property": []
+                        },
+                        {
+                            "Name": "userStatus",
+                            "Type": "integer",
+                            "Values": [],
+                            "IsRequired": false,
+                            "Description": "User Status",
+                            "In": null,
+                            "Property": []
+                        }
+                    ],
+                    "ParamTree": [
+                        {
+                            "Name": "id",
+                            "ObjectName": "id",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "username",
+                            "ObjectName": "username",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "firstName",
+                            "ObjectName": "firstName",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "lastName",
+                            "ObjectName": "lastName",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "email",
+                            "ObjectName": "email",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "password",
+                            "ObjectName": "password",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "phone",
+                            "ObjectName": "phone",
+                            "Type": "string",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        },
+                        {
+                            "Name": "userStatus",
+                            "ObjectName": "userStatus",
+                            "Type": "integer",
+                            "Node": 1,
+                            "IsRequired": false,
+                            "Position": "body",
+                            "Values": [],
+                            "Items": []
+                        }
+                    ],
+                    "ResponseTree": [],
+                    "ResponseParams": [],
+                    "ResponseType": null,
+                    "Server": [
+                        "https://petstore.swagger.io/v2",
+                        "http://petstore.swagger.io/v2"
+                    ]
+                }
+            ]
+        }
+    ]
+}
