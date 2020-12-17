@@ -102,6 +102,7 @@ namespace Server.Models
         public List<List<RequestDesign>> Design { get; set; }
         public List<List<RequestDesign>> ResDesign { get; set; }
         public bool GridView { get; set; }
+        public string ResponseType { get; set; }
     }
 
     public class RequestDesign

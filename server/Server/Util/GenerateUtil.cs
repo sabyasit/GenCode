@@ -364,8 +364,8 @@ namespace Server.Util
             string url = "'" + request.Server + request.Operation.Name + "'";
             foreach (var param in request.Operation.Params)
             {
-                url = url.Replace("{" + param.Name + "}", "'+query_" + param.Name + "+'");
-                states.Add("query_" + param.Name, param.Type);
+                url = url.Replace("{" + param.Name + "}", "'+" + param.In + "_" + param.Name + "+'");
+                states.Add(param.In + "_" + param.Name, param.Type);
             }
             url = url.Replace("+''", "");
             foreach (var param in request.Operation.Params)
@@ -400,7 +400,28 @@ namespace Server.Util
                         state.Value == "integer" ? "0" : (state.Value == "array" ? "[]" : "''")));
                 }
             }
-            codeGen.States.Add("response", "const [response, Set_response] = useState([])");
+
+            string responseStr;
+            if (request.ResponseType == "array")
+            {
+                codeGen.States.Add("response", "const [response, Set_response] = useState([])");
+                responseStr = ".then(data => Set_response(data))";
+            }
+            else if (request.GridView)
+            {
+                codeGen.States.Add("response", "const [response, Set_response] = useState([])");
+                responseStr = ".then(data => Set_response([data]))";
+            }
+            else if (request.ResponseType == "object")
+            {
+                codeGen.States.Add("response", "const [response, Set_response] = useState({})");
+                responseStr = ".then(data => Set_response(data))";
+            }
+            else
+            {
+                codeGen.States.Add("response", "const [response, Set_response] = useState('')");
+                responseStr = ".then(data => Set_response(data))";
+            }
 
             StringBuilder sbFunc = new StringBuilder();
             sbFunc.AppendLine("const onSubmit = useCallback((event) => {");
@@ -417,7 +438,7 @@ namespace Server.Util
 
             sbFunc.AppendLineFormat("fetch({0}, requestOptions)", url);
             sbFunc.AppendLine(".then(response => response.json())");
-            sbFunc.AppendLine(".then(data => Set_response(data))");
+            sbFunc.AppendLine(responseStr);
             sbFunc.AppendLine(".catch (err => console.log(err));");
 
             sbFunc.AppendLine("})");
@@ -485,7 +506,7 @@ namespace Server.Util
                 sb.AppendLine("<Table stickyHeader aria-label='simple table'>");
                 sb.AppendLine("<TableHead>");
                 sb.AppendLine("<TableRow>");
-                foreach(var design in request.ResDesign)
+                foreach (var design in request.ResDesign)
                 {
                     foreach (var param in design)
                     {
@@ -502,12 +523,12 @@ namespace Server.Util
                 {
                     foreach (var param in design)
                     {
-                        if(param.Type == "array")
+                        if (param.Type == "array")
                         {
                             if (param.Items.Count == 0)
                             {
                                 sb.AppendLine("<TableCell>");
-                                sb.AppendLine("<ul style={{ padding: '16px' }}>");
+                                sb.AppendLine("<ul style={{ padding: '0px 0px 0px 16px', margin: '0px' }}>");
                                 sb.AppendLine("{(obj." + param.ObjectName.Replace("_", "?.") + " || []).map((sub, i) => (");
                                 sb.AppendLine("<li key={i}>{sub}</li>");
                                 sb.AppendLine("))}");
@@ -518,7 +539,7 @@ namespace Server.Util
                             {
                                 sb.AppendLine("<TableCell>");
                                 sb.AppendLine("{(obj." + param.ObjectName.Replace("_", "?.") + " || []).map((sub, i) => (");
-                                sb.AppendLine("<ul key={i} style={{ padding: '16px' }}>");
+                                sb.AppendLine("<ul key={i} style={{ padding: '0px 0px 0px 16px', margin: '0px' }}>");
                                 foreach (var item in param.Items)
                                 {
                                     sb.AppendLine("<li>" + item.Level + ":- {" + item.ObjectName.Replace(param.Name, "sub").Replace("_", "?.") + "}</li>");
@@ -540,6 +561,49 @@ namespace Server.Util
                 sb.AppendLine("</TableBody>");
                 sb.AppendLine("</Table>");
                 sb.AppendLine("</TableContainer>");
+            }
+            else
+            {
+                sb.AppendLine("<Grid container spacing={3}>");
+                foreach (var design in request.ResDesign)
+                {
+                    var rows = gridRow[design.Count];
+                    for (int i = 0; i < design.Count; i++)
+                    {
+                        sb.AppendLine("<Grid item xs={" + rows[i].ToString() + "}>");
+                        if (design[i].Type == "array")
+                        {
+                            if (design[i].Items.Count == 0)
+                            {
+                                sb.AppendLineFormat("<label><b>{0} : </b></label>", design[i].Level);
+                                sb.AppendLine("<ul style={{ margin: '0px' }}>");
+                                sb.AppendLine("{(response." + design[i].ObjectName.Replace("_", "?.") + " || []).map((sub, i) => (");
+                                sb.AppendLine("<li key={i}>{sub}</li>");
+                                sb.AppendLine("))}");
+                                sb.AppendLine("</ul>");
+                            }
+                            else
+                            {
+                                sb.AppendLineFormat("<label><b>{0} : </b></label>", design[i].Level);
+                                sb.AppendLine("{(response." + design[i].ObjectName.Replace("_", "?.") + " || []).map((sub, i) => (");
+                                sb.AppendLine("<ul key={i} style={{ margin: '0px' }}>");
+                                foreach (var item in design[i].Items)
+                                {
+                                    sb.AppendLine("<li><b>" + item.Level + " : </b> {" + item.ObjectName.Replace(design[i].Name, "sub").Replace("_", "?.") + "}</li>");
+                                }
+                                sb.AppendLine("</ul>");
+                                sb.AppendLine("))}");
+                            }
+                        }
+                        else
+                        {
+                            sb.AppendLineFormat("<label><b>{0} : </b></label>", design[i].Level);
+                            sb.AppendLine("<span>{response?." + design[i].ObjectName.Replace("_", "?.") + "}</span>");
+                        }
+                        sb.AppendLine("</Grid>");
+                    }
+                }
+                sb.AppendLine("</Grid>");
             }
             return sb.ToString();
         }
