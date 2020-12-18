@@ -58,10 +58,17 @@ gridster div.gridster-column {
   
   a:link, a:visited, a:hover, a:active { color: lightblue; } */
 
+  .stepper-wrapper {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+    background: white;
+  }
   .stepper {
     display: flex;
     align-items: center;
-    position: fixed;
     padding: 20px;
   }
   .cp,
@@ -83,4 +90,3 @@ gridster div.gridster-column {
     background: #0fbd0f;
     color: white;
   }
-  
