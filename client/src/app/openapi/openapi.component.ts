@@ -12,15 +12,18 @@ export class OpenapiComponent implements OnInit {
   @ViewChild('editor') editor: any;
   public list: any = [];
   filename: string = '';
+  projName: string;
 
-  constructor(private openApiService: OpenApiService, private router: Router) { }
+  constructor(private openApiService: OpenApiService, private router: Router) {
+    this.projName = this.router.getCurrentNavigation()?.extras?.state?.proj;
+  }
 
   ngOnInit(): void {
 
   }
 
   renderBuilder(item: any) {
-    this.router.navigateByUrl('/builder', { state: item });
+    this.router.navigateByUrl('/builder', { state: { item: item, proj: this.projName }});
   }
 
   getValue() {

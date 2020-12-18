@@ -34,7 +34,8 @@ export class ApibuilderComponent implements OnInit {
   };
 
   constructor(private router: Router, private modalService: BsModalService, private openApiService: OpenApiService) {
-    this.model = this.router.getCurrentNavigation()?.extras.state;
+    this.model = this.router.getCurrentNavigation()?.extras?.state?.item;
+    this.response.Project = this.router.getCurrentNavigation()?.extras?.state?.proj;
     this.response.Header = this.model.Summary;
     this.response.Server = this.model.Server[0];
     this.response.ResponseType = this.model.ResponseType;

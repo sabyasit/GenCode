@@ -3,11 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { OpenapiComponent } from './openapi/openapi.component';
 import { ApibuilderComponent } from './apibuilder/apibuilder.component'
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   { path: 'builder', component: ApibuilderComponent },
   { path: 'openapi', component: OpenapiComponent },
-  { path: '**', redirectTo: 'openapi' }
+  { path: 'home', component: HomeComponent },
+  { path: '**', redirectTo: 'home' }
 ];
 
 @NgModule({

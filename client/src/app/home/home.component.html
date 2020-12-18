@@ -1,0 +1,8 @@
+<div class="container">
+    <div class="card">
+        <input type="text" class="form-control proj-name" [(ngModel)]="projName" name="projName"
+            placeholder="Enter project name">
+        <button type="button" [disabled]="projName==''" class="btn btn-info"
+            [class.disable]="projName==''" (click)="createProjAndNavigate()">CREATE</button>
+    </div>
+</div>

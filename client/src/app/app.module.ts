@@ -19,6 +19,7 @@ import { ApibuilderComponent } from './apibuilder/apibuilder.component';
 import { OpenapiComponent } from './openapi/openapi.component';
 import { RequestDesignComponent } from './request-design/request-design.component';
 import { ResponseDesignComponent } from './response-design/response-design.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ResponseDesignComponent } from './response-design/response-design.compo
     ApibuilderComponent,
     OpenapiComponent,
     RequestDesignComponent,
-    ResponseDesignComponent
+    ResponseDesignComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

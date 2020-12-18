@@ -1,0 +1,19 @@
+.container {
+}
+.card {
+    margin: 150px auto;
+    box-shadow: 1px 1.732px 14px 0px #999999;
+    padding: 50px;
+}
+.proj-name {
+    margin-bottom: 10px;
+}
+.disable {
+    background: gray;
+    border: gray;
+}
+.btn-info.focus,
+.btn-info:focus {
+    outline: none;
+    border: none;
+}
