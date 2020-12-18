@@ -23,7 +23,7 @@ namespace Server.Util
         {
             string code = GenerateReactCode(request, page);
 
-            File.WriteAllText(@"C:\Users\462676\Desktop\codeGen\my-app\src\App.js", code);
+            //File.WriteAllText(@"C:\Users\462676\Desktop\codeGen\my-app\src\App.js", code);
 
             string guid = Guid.NewGuid().ToString();
             using (var zip = ZipFile.Read(path + "\\dummy.zip"))
